@@ -3,26 +3,35 @@ import { IoChevronDown } from "react-icons/io5";
 import crownImage from "../assets/crown icon.png";
 
 const faqData = [
-  { question: "What is a funeral policy?", answer: "Answer to question 1..." },
   {
-    question: "How soon does coverage begin?",
-    answer: "Answer to question 2...",
+    question: "What is funeral cover?",
+    answer:
+      "Funeral cover is insurance that helps pay for funeral expenses, such as services, burial or cremation, and related costs, easing the financial burden on the family.",
   },
   {
-    question: "How do my beneficiaries claim the policy?",
-    answer: "Answer to question 3...",
+    question: "How can I join? ",
+    answer:
+      "Interested customers can request a call or speak to a field agent to learn more about joining. Our team will guide you through the process, answer any questions, and help you find the best coverage for your needs.",
   },
   {
-    question: "What happens if I miss a payment?",
-    answer: "Answer to question 4...",
+    question: "What are the age limits for joining?",
+    answer:
+      "The youngest participants can be as young as 16 years old, while the oldest can be up to 84 years old.",
   },
   {
-    question: "How do I apply for a funeral policy?",
-    answer: "Answer to question 5...",
+    question: "How to claim?",
+    answer:
+      "Members can simply send their claim along with their membership number/ID number to claims@crown.co.za ",
   },
   {
-    question: "Who can be covered under a funeral policy?",
-    answer: "Answer to question 6...",
+    question: "Who will receive the payout amount at the claims stage?",
+    answer:
+      "We encourage members to regularly update their beneficiary details to ensure that the payout is made to the correct individual.",
+  },
+  {
+    question: "What are the value-added benefits?",
+    answer:
+      "Symptom Check BOT: Members can use our symptom check BOT for a quick diagnosis and advice on how to feel better.",
   },
 ];
 

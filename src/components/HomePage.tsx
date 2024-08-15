@@ -93,15 +93,15 @@ const HomePage: React.FC = () => {
       {/* Main Content */}
       <main className="flex flex-col items-center justify-end text-center flex-grow pb-20 mx-2">
         <h1 className="text-4xl lg:text-6xl font-bold mb-4">
-          We're here for you.
+          Your Trusted Partner
+          <br /> in Life's Final Tribute.
         </h1>
-        <h2 className="text-4xl lg:text-6xl font-bold mb-8">
+        {/* <h2 className="text-4xl lg:text-6xl font-bold mb-8">
           Every step of the way.
-        </h2>
+        </h2> */}
         <p className="max-w-2xl mb-8">
-          Ensure your family is taken care of during life's most difficult
-          moments. Our policies offer security and simplicity when it's needed
-          most.
+          Ensure your family is supported during life’s most challenging times.
+          Our policies provide peace of mind and ease when it matters most.
         </p>
 
         <div className="space-x-4">

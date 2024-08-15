@@ -24,26 +24,40 @@ const AboutUsSection = () => {
               className="absolute -top-16 -left-12 w-20 h-10 lg:-top-20 lg:-left-14 -rotate-12 lg:w-26 lg:h-14"
             />
           </h2>
-          <p className="mb-4">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed diam
-            nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat
-            volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation
-            ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo
-            consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate
-            velit esse molestie consequat, vel illum dolore eu feugiat nulla
-            facilisis at vero eros et accumsan et iusto odio dignissim qui
-            blandit praesent luptatum zzril delenit augue duis dolore te feugait
-            nulla facilisi.
-          </p>
-          <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed diam
-            nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat
-            volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation
-            ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo
-            consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate
-            velit esse molestie consequat, vel illum dolore eu feugiat nulla
-            facilisis at vero eros.
-          </p>
+          <div className="mb-4">
+            <ul>
+              <li>
+                <strong>Vision:</strong> At Crown Funeral, we aim to offer the
+                South African community dignified support and financial peace of
+                mind through compassionate services, being a pillar of strength
+                in life's toughest moments.
+              </li>
+              <li>
+                <strong>Mission:</strong> Our mission is to provide accessible,
+                comprehensive funeral and financial services, ensuring a
+                respectful and seamless experience. We offer holistic care that
+                includes health and mental health support for those grieving.
+              </li>
+              <li>
+                <strong>Values:</strong> We are committed to affordable,
+                integrated solutions delivered with respect, compassion, and
+                integrity, focusing on the well-being of our clients and their
+                families during life's challenges.
+              </li>
+              <li>
+                <strong>Commitment:</strong> We empower marginalized communities
+                and promote economic inclusion to create a more equitable
+                society. Our services address immediate needs and ongoing health
+                and mental well-being.
+              </li>
+              <li>
+                <strong>Support for SASSA Recipients:</strong> We extend our
+                commitment to SASSA grant recipients by providing financial
+                relief and holistic peace of mind, ensuring every South African
+                has access to compassionate support in times of need.
+              </li>
+            </ul>
+          </div>
         </div>
       </div>
     </div>
