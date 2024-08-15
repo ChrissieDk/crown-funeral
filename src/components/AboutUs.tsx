@@ -44,7 +44,7 @@ const AboutUsSection = () => {
                 integrity, focusing on the well-being of our clients and their
                 families during life's challenges.
               </li>
-              <li>
+              {/* <li>
                 <strong>Commitment:</strong> We empower marginalized communities
                 and promote economic inclusion to create a more equitable
                 society. Our services address immediate needs and ongoing health
@@ -55,7 +55,7 @@ const AboutUsSection = () => {
                 commitment to SASSA grant recipients by providing financial
                 relief and holistic peace of mind, ensuring every South African
                 has access to compassionate support in times of need.
-              </li>
+              </li> */}
             </ul>
           </div>
         </div>
