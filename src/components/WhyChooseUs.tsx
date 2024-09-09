@@ -2,7 +2,7 @@ import crownImage from "../assets/crown icon.png";
 
 const WhyChooseUsSection = () => {
   return (
-    <div className="bg-white">
+    <div className="bg-white" id="why-choose-us">
       {/* Top Section with White Background */}
       <div className="container mx-auto px-4 ">
         {/* Title */}

@@ -1,14 +1,35 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import heroImage from "../assets/AdobeStock_549976257.jpeg";
-import logo from "../assets/crown logo white.png";
+import logo from "../assets/crown-logo-white.png";
 
 const HomePage: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = (e: React.MouseEvent<HTMLAnchorElement>) => {
+      e.preventDefault();
+      const href = e.currentTarget.getAttribute("href");
+      const targetId = href?.replace("#", "");
+      const elem = document.getElementById(targetId || "");
+      elem?.scrollIntoView({ behavior: "smooth" });
+    };
+
+    const links = document.querySelectorAll('a[href^="#"]');
+    links.forEach((link) =>
+      link.addEventListener("click", handleScroll as any)
+    );
+
+    return () =>
+      links.forEach((link) =>
+        link.removeEventListener("click", handleScroll as any)
+      );
+  }, []);
 
   return (
     <div
       className="min-h-screen bg-cover bg-center text-white flex flex-col"
       style={{ backgroundImage: `url(${heroImage})` }}
+      id="about"
     >
       {/* Header */}
       <header className="flex justify-between items-center p-4">
@@ -58,27 +79,25 @@ const HomePage: React.FC = () => {
         <nav className={`${isMenuOpen ? "block" : "hidden"} md:block`}>
           <ul className="flex flex-col md:flex-row md:space-x-4 space-y-2 md:space-y-0">
             <li>
-              <a href="#" className="hover:underline block">
+              <a href="#about-us" className="hover:underline block text-white">
                 About Us
               </a>
             </li>
             <li>
-              <a href="#" className="hover:underline block">
-                Products
+              <a
+                href="#why-choose-us"
+                className="hover:underline block text-white"
+              >
+                Why Choose Us
               </a>
             </li>
             <li>
-              <a href="#" className="hover:underline block">
+              <a href="#faqs" className="hover:underline block text-white">
                 FAQs
               </a>
             </li>
             <li>
-              <a href="#" className="hover:underline block">
-                Sign Up
-              </a>
-            </li>
-            <li>
-              <a href="#" className="hover:underline block">
+              <a href="#verify" className="hover:underline block text-white">
                 Verify an Agent
               </a>
             </li>

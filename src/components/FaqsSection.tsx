@@ -39,7 +39,7 @@ const FaqsSection = () => {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
 
   return (
-    <div className="bg-white py-12 px-6 w-full">
+    <div className="bg-white py-12 px-6 w-full" id="faqs">
       <div className="max-w-6xl mx-auto flex flex-col md:flex-row md:justify-between">
         {/* Left Section */}
         <div className="w-full md:w-1/3 mb-8 md:mb-0 flex flex-col items-start p-4">

@@ -3,7 +3,7 @@ import crownImage from "../assets/crown icon.png";
 
 const VerifyAgentSection = () => {
   return (
-    <div className="bg-black text-white pt-8 lg:pt-0">
+    <div className="bg-black text-white pt-8 lg:pt-0" id="verify">
       <div className="container mx-auto px-4 py-8 flex flex-col md:flex-row items-end">
         <div className="md:w-1/3 mb-8 md:mb-0 relative">
           <div className="absolute -top-8 lg:-top-12 left-0">
