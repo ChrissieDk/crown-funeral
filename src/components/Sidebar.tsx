@@ -46,8 +46,8 @@ const Sidebar = ({ activePage, setActivePage, services }: SidebarProps) => {
   };
 
   const renderItem = (
-    page: { name: string; icon: React.ReactNode; special?: boolean },
-    index: number
+    page: { name: string; icon: React.ReactNode; special?: boolean }
+    // index: number
   ) => (
     <React.Fragment key={page.name}>
       <button
