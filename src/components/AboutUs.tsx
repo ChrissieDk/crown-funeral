@@ -1,12 +1,13 @@
 import aboutBackground from "../assets/AdobeStock_533779765.jpeg";
 import crownImage from "../assets/crown icon.png";
-import logo from "../assets/crown logo white.png";
+import logo from "../assets/crown-logo-white.png";
 
 const AboutUsSection = () => {
   return (
     <div
       className="relative h-screen bg-cover bg-center flex flex-col items-end"
       style={{ backgroundImage: `url(${aboutBackground})` }}
+      id="about-us"
     >
       {/* Crown Logo */}
       <div className="mt-4 mr-4 lg:pr-36">
@@ -44,7 +45,7 @@ const AboutUsSection = () => {
                 integrity, focusing on the well-being of our clients and their
                 families during life's challenges.
               </li>
-              {/* <li>
+              <li>
                 <strong>Commitment:</strong> We empower marginalized communities
                 and promote economic inclusion to create a more equitable
                 society. Our services address immediate needs and ongoing health
@@ -55,7 +56,7 @@ const AboutUsSection = () => {
                 commitment to SASSA grant recipients by providing financial
                 relief and holistic peace of mind, ensuring every South African
                 has access to compassionate support in times of need.
-              </li> */}
+              </li>
             </ul>
           </div>
         </div>

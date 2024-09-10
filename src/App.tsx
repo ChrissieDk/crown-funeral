@@ -1,19 +1,21 @@
 import "./index.css";
 import HomePage from "./components/HomePage";
-import VerifyAgentSection from "./components/VerifyAgent";
-import AboutUsSection from "./components/AboutUs";
-import WhyChooseUsSection from "./components/WhyChooseUs";
-import FaqsSection from "./components/FaqsSection";
+import SignInPage from "./components/SignIn";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Dashboard from "./components/Dashboard";
+
+// Define your repository name
+const repoName = "crown-funeral";
 
 function App() {
   return (
-    <>
-      <HomePage />
-      <VerifyAgentSection />
-      <AboutUsSection />
-      <WhyChooseUsSection />
-      <FaqsSection />
-    </>
+    <Router basename={`/${repoName}`}>
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/sign-in" element={<SignInPage />} />
+        <Route path="/dashboard" element={<Dashboard />} />
+      </Routes>
+    </Router>
   );
 }
 
