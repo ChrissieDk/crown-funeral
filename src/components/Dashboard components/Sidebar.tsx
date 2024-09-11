@@ -1,5 +1,5 @@
-import React from "react";
-import logo from "../assets/crown-logo-white.png";
+import React, { useState, useEffect } from "react";
+import logo from "../../assets/crown-logo-white.png";
 import {
   FaHome,
   FaFileAlt,
@@ -11,6 +11,8 @@ import {
   FaPlane,
   FaEnvelope,
   FaSignOutAlt,
+  FaBars,
+  FaTimes,
 } from "react-icons/fa";
 import { IoCheckmarkCircle } from "react-icons/io5";
 import { IoIosCloseCircle } from "react-icons/io";
@@ -20,13 +22,37 @@ interface Service {
   active: boolean;
 }
 
-interface SidebarProps {
+interface BurgerMenuProps {
   activePage: string;
   setActivePage: (page: string) => void;
   services: Service[];
 }
 
-const Sidebar = ({ activePage, setActivePage, services }: SidebarProps) => {
+const BurgerMenu: React.FC<BurgerMenuProps> = ({
+  activePage,
+  setActivePage,
+  services,
+}) => {
+  const [isOpen, setIsOpen] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkIsMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+
+    checkIsMobile();
+    window.addEventListener("resize", checkIsMobile);
+
+    return () => {
+      window.removeEventListener("resize", checkIsMobile);
+    };
+  }, []);
+
+  const toggleMenu = () => {
+    setIsOpen(!isOpen);
+  };
+
   const pages = [
     { name: "Home", icon: <FaHome /> },
     { name: "My Policy", icon: <FaFileAlt /> },
@@ -45,16 +71,20 @@ const Sidebar = ({ activePage, setActivePage, services }: SidebarProps) => {
     return service ? service.active : false;
   };
 
-  const renderItem = (
-    page: { name: string; icon: React.ReactNode; special?: boolean }
-    // index: number
-  ) => (
+  const renderItem = (page: {
+    name: string;
+    icon: React.ReactNode;
+    special?: boolean;
+  }) => (
     <React.Fragment key={page.name}>
       <button
         className={`w-full text-left py-2 px-4 my-1 flex items-center justify-between ${
           activePage === page.name ? "bg-gray-700" : ""
         }`}
-        onClick={() => setActivePage(page.name)}
+        onClick={() => {
+          setActivePage(page.name);
+          if (isMobile) setIsOpen(false);
+        }}
       >
         <div className="flex items-center">
           <span className="mr-2 text-[#C9A86C]">{page.icon}</span>
@@ -82,11 +112,27 @@ const Sidebar = ({ activePage, setActivePage, services }: SidebarProps) => {
   );
 
   return (
-    <div className="w-64 bg-black text-white h-screen p-4">
-      <img className="p-8" src={logo} alt="Crown Logo" />
-      <nav>{pages.map(renderItem)}</nav>
+    <div className="relative">
+      <button
+        onClick={toggleMenu}
+        className="md:hidden fixed top-4 right-4 z-50 text-white bg-black p-2 rounded-md"
+      >
+        {isOpen ? <FaTimes /> : <FaBars />}
+      </button>
+      <div
+        className={`${
+          isMobile
+            ? `fixed inset-y-0 left-0 transform ${
+                isOpen ? "translate-x-0" : "-translate-x-full"
+              }`
+            : "relative"
+        } transition-transform duration-300 ease-in-out md:translate-x-0 bg-black text-white h-screen w-64 p-4 overflow-y-auto`}
+      >
+        <img className="p-8" src={logo} alt="Crown Logo" />
+        <nav>{pages.map(renderItem)}</nav>
+      </div>
     </div>
   );
 };
 
-export default Sidebar;
+export default BurgerMenu;

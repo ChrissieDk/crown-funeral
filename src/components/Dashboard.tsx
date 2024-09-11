@@ -1,5 +1,5 @@
 import { useState } from "react";
-import Sidebar from "./Sidebar";
+import Sidebar from "./Dashboard components/Sidebar";
 import Welcome from "./Dashboard components/Welcome";
 import PersonalDetails from "./Dashboard components/PersonalDetails";
 import ClaimsComponent from "./Dashboard components/Claims";

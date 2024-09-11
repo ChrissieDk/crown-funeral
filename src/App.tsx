@@ -4,7 +4,6 @@ import SignInPage from "./components/SignIn";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Dashboard from "./components/Dashboard";
 
-// Define your repository name
 const repoName = "crown-funeral";
 
 function App() {
