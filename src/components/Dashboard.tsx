@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import Sidebar from "./Dashboard components/Sidebar";
 import Welcome from "./Dashboard components/Welcome";
 import PersonalDetails from "./Dashboard components/PersonalDetails";
@@ -6,6 +7,8 @@ import ClaimsComponent from "./Dashboard components/Claims";
 
 const Dashboard = () => {
   const [activePage, setActivePage] = useState("Home");
+  const [isContactModalOpen, setIsContactModalOpen] = useState(false);
+  const navigate = useNavigate();
 
   const services = [
     { name: "Wellness App", active: true },
