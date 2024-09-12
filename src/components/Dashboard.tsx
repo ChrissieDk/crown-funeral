@@ -5,12 +5,10 @@ import PersonalDetails from "./Dashboard components/PersonalDetails";
 import ClaimsComponent from "./Dashboard components/Claims";
 import ContactUsModal from "./Dashboard components/ContactUs";
 import SymptomChecker from "./Dashboard components/SymptomChecker";
-import { useNavigate } from "react-router-dom";
 
 const Dashboard = () => {
   const [activePage, setActivePage] = useState("Home");
   const [isContactModalOpen, setIsContactModalOpen] = useState(false);
-  const navigate = useNavigate();
 
   const services = [
     { name: "Wellness App", active: true },
