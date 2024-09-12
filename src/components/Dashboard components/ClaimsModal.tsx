@@ -97,7 +97,7 @@ const ModernChecklist: React.FC<ModernChecklistProps> = ({ closeModal }) => {
             type="checkbox"
             checked={isChecked}
             onChange={() => setIsChecked(!isChecked)}
-            className="form-checkbox h-5 w-5 text-[#C9A86C] rounded border-gray-300 focus:ring-[#C9A86C]"
+            className="h-5 w-5 text-[#C9A86C] rounded border-gray-300 focus:ring-[#C9A86C]"
             required
           />
           <span className="ml-2 text-[#CCCCCC] text-sm">
