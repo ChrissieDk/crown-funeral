@@ -73,10 +73,10 @@ const SignInPage: React.FC = () => {
             className="bg-cover bg-center bg-no-repeat"
             style={{
               backgroundImage: `url(${crownSignIn})`,
-              width: "80%", // Adjust this value to change the width
-              height: "100%", // Adjust this value to change the height
-              maxWidth: "500px", // Optional: set a maximum width
-              maxHeight: "600px", // Optional: set a maximum height
+              width: "80%",
+              height: "100%",
+              maxWidth: "500px",
+              maxHeight: "600px",
             }}
           />
         </div>
