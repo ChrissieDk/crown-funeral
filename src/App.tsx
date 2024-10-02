@@ -4,11 +4,9 @@ import SignInPage from "./components/SignIn";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Dashboard from "./components/Dashboard";
 
-const repoName = "crown-funeral";
-
 function App() {
   return (
-    <Router basename={`/${repoName}`}>
+    <Router>
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/sign-in" element={<SignInPage />} />

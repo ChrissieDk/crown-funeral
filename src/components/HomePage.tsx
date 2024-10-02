@@ -31,6 +31,11 @@ const HomePage: React.FC = () => {
       );
   }, []);
 
+  const toggleMenu = () => {
+    setIsMenuOpen(!isMenuOpen);
+    document.body.style.overflow = isMenuOpen ? "auto" : "hidden";
+  };
+
   return (
     <>
       <div
@@ -39,7 +44,7 @@ const HomePage: React.FC = () => {
         id="about"
       >
         {/* Header */}
-        <header className="flex justify-between items-center p-4">
+        <header className="flex justify-between items-center p-4 relative z-50">
           <div className="flex items-center justify-center">
             <img
               src={logo}
@@ -50,8 +55,9 @@ const HomePage: React.FC = () => {
 
           <div className="md:hidden">
             <button
-              onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="text-white"
+              onClick={toggleMenu}
+              className="text-white z-50 relative"
+              aria-label={isMenuOpen ? "Close menu" : "Open menu"}
             >
               {isMenuOpen ? (
                 <svg
@@ -87,12 +93,22 @@ const HomePage: React.FC = () => {
             </button>
           </div>
 
-          <nav className={`${isMenuOpen ? "block" : "hidden"} md:block`}>
-            <ul className="flex flex-col md:flex-row md:space-x-4 space-y-2 md:space-y-0">
+          <nav
+            className={`
+            md:block
+            ${
+              isMenuOpen
+                ? "fixed inset-0 bg-black bg-opacity-95 flex items-center justify-center"
+                : "hidden"
+            }
+          `}
+          >
+            <ul className="flex flex-col md:flex-row md:space-x-4 space-y-4 md:space-y-0 items-center">
               <li>
                 <a
                   href="#about-us"
-                  className="hover:underline block text-white"
+                  className="hover:underline block text-white text-lg md:text-base"
+                  onClick={() => isMenuOpen && toggleMenu()}
                 >
                   About Us
                 </a>
@@ -100,26 +116,46 @@ const HomePage: React.FC = () => {
               <li>
                 <a
                   href="#why-choose-us"
-                  className="hover:underline block text-white"
+                  className="hover:underline block text-white text-lg md:text-base"
+                  onClick={() => isMenuOpen && toggleMenu()}
                 >
                   Why Choose Us
                 </a>
               </li>
               <li>
-                <a href="#faqs" className="hover:underline block text-white">
+                <a
+                  href="#faqs"
+                  className="hover:underline block text-white text-lg md:text-base"
+                  onClick={() => isMenuOpen && toggleMenu()}
+                >
                   FAQs
                 </a>
               </li>
               <li>
-                <a href="#verify" className="hover:underline block text-white">
+                <a
+                  href="#verify"
+                  className="hover:underline block text-white text-lg md:text-base"
+                  onClick={() => isMenuOpen && toggleMenu()}
+                >
                   Verify an Agent
                 </a>
+              </li>
+              <li className="md:hidden">
+                <button
+                  className="bg-yellow-400 text-black px-4 py-2 rounded hover:bg-yellow-300 transition-colors text-lg"
+                  onClick={() => {
+                    toggleMenu();
+                    navigate("/sign-in");
+                  }}
+                >
+                  SIGN IN
+                </button>
               </li>
             </ul>
           </nav>
 
           <button
-            className="bg-yellow-400 text-black px-4 py-2 rounded hover:bg-yellow-300 transition-colors"
+            className="bg-yellow-400 text-black px-4 py-2 rounded hover:bg-yellow-300 transition-colors hidden md:block"
             onClick={() => navigate("/sign-in")}
           >
             SIGN IN
@@ -132,11 +168,8 @@ const HomePage: React.FC = () => {
             Your Trusted Partner
             <br /> in Life's Final Tribute.
           </h1>
-          {/* <h2 className="text-4xl lg:text-6xl font-bold mb-8">
-          Every step of the way.
-        </h2> */}
           <p className="max-w-2xl mb-8">
-            Ensure your family is supported during life’s most challenging
+            Ensure your family is supported during life's most challenging
             times. Our policies provide peace of mind and ease when it matters
             most.
           </p>
