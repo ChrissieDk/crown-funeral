@@ -24,10 +24,9 @@ const WellnessApp = () => {
           </button>
         </div>
         <iframe
-          src="http://dev.3things.ai"
+          src="//dev.3things.ai"
           title="Wellness App"
           className="flex-grow w-full border-none"
-          sandbox="allow-scripts allow-same-origin"
         />
       </div>
     );
