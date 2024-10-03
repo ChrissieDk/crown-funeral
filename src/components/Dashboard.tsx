@@ -5,6 +5,7 @@ import PersonalDetails from "./Dashboard components/PersonalDetails";
 import ClaimsComponent from "./Dashboard components/Claims";
 import ContactUsModal from "./Dashboard components/ContactUs";
 import SymptomChecker from "./Dashboard components/SymptomChecker";
+import WellnessApp from "./Dashboard components/WelnessApp";
 
 const Dashboard = () => {
   const [activePage, setActivePage] = useState("Home");
@@ -59,6 +60,8 @@ const Dashboard = () => {
         );
       case "Symptom Checker":
         return <SymptomChecker />;
+      case "Wellness App":
+        return <WellnessApp />;
       default:
         return <div className="p-8">Page not implemented yet</div>;
     }
