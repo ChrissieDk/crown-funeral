@@ -16,7 +16,7 @@ const AboutUsSection = () => {
 
       {/* Content Box */}
       <div className="flex-grow flex items-center justify-end  lg:pr-16 px-2">
-        <div className="relative z-10 bg-white bg-opacity-80 lg:bg-opacity-40 lg:text-white p-4 sm:p-8 rounded-lg w-full sm:max-w-lg md:max-w-xl lg:max-w-2xl max-h-[80vh] overflow-y-auto">
+        <div className="relative z-10 bg-[#C9A86C] bg-opacity-80 lg:bg-opacity-80 lg:text-black p-4 sm:p-8 rounded-lg w-full sm:max-w-lg md:max-w-xl lg:max-w-2xl max-h-[80vh] overflow-y-auto">
           <h2 className="text-4xl lg:text-6xl font-bold mb-4 relative">
             About Us
             <img

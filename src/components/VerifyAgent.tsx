@@ -41,9 +41,17 @@ const VerifyAgentSection = () => {
             identification below. Our team is here to provide you with
             trustworthy and professional assistance.
           </p>
-          <button className="bg-yellow-200 text-black px-6 py-2 rounded whitespace-nowrap">
-            View Agent ID Verification
-          </button>
+          <div className="relative group">
+            <button
+              className="bg-gray-400 text-gray-600 px-6 py-2 rounded whitespace-nowrap cursor-not-allowed"
+              disabled
+            >
+              View Agent ID Verification
+            </button>
+            <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-3 py-1 bg-gray-700 text-white text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap">
+              We are working on implementing this feature
+            </div>
+          </div>
         </div>
       </div>
     </div>

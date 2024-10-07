@@ -1,4 +1,5 @@
 import crownImage from "../assets/crown icon.png";
+import crownDark from "../assets/crown black.png";
 
 const WhyChooseUsSection = () => {
   return (
@@ -45,7 +46,7 @@ const WhyChooseUsSection = () => {
             {/* Get Started Today */}
             <div className=" md:w-2/3 p-8">
               <img
-                src={crownImage}
+                src={crownDark}
                 alt="Crown"
                 className="w-20 h-12 mb-2 text-black"
               />
