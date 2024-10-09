@@ -9,6 +9,7 @@ import FaqsSection from "./FaqsSection";
 
 const HomePage: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -25,10 +26,18 @@ const HomePage: React.FC = () => {
       link.addEventListener("click", handleScroll as any)
     );
 
-    return () =>
+    const handleScrollChange = () => {
+      setIsScrolled(window.scrollY > 0);
+    };
+
+    window.addEventListener("scroll", handleScrollChange);
+
+    return () => {
       links.forEach((link) =>
         link.removeEventListener("click", handleScroll as any)
       );
+      window.removeEventListener("scroll", handleScrollChange);
+    };
   }, []);
 
   const toggleMenu = () => {
@@ -38,25 +47,60 @@ const HomePage: React.FC = () => {
 
   return (
     <>
-      <div
-        className="min-h-screen bg-cover bg-center text-white flex flex-col"
-        style={{ backgroundImage: `url(${heroImage})` }}
-        id="about"
+      <header
+        className={`flex justify-between items-center px-4 py-5 fixed top-0 left-0 right-0 z-50 transition-colors duration-300 ${
+          isScrolled ? "bg-black" : "bg-transparent"
+        }`}
       >
-        {/* Header */}
-        <header className="flex justify-between items-center p-4 relative z-50">
-          <div className="flex items-center justify-center">
-            <img
-              src={logo}
-              alt="Crown Funeral Logo"
-              className="w-32 h-12 ml-2"
-            />
-          </div>
+        <div className="flex items-center">
+          <img src={logo} alt="Crown Funeral Logo" className="w-40 h-16" />
+        </div>
+
+        <nav className="hidden md:block">
+          <ul className="flex space-x-6">
+            <li>
+              <a href="#about-us" className="text-white hover:text-yellow-400">
+                About Us
+              </a>
+            </li>
+            <li>
+              <a href="#faqs" className="text-white hover:text-yellow-400">
+                Products
+              </a>
+            </li>
+            <li>
+              <a href="#faqs" className="text-white hover:text-yellow-400">
+                FAQs
+              </a>
+            </li>
+            <li>
+              <a href="#about-us" className="text-white hover:text-yellow-400">
+                How To Claim
+              </a>
+            </li>
+            <li>
+              <a
+                href="#why-choose-us"
+                className="text-white hover:text-yellow-400"
+              >
+                Value-Added Services
+              </a>
+            </li>
+          </ul>
+        </nav>
+
+        <div className="flex items-center">
+          <button
+            className="bg-yellow-400 text-black px-6 py-2 rounded hover:bg-yellow-300 transition-colors hidden md:block"
+            onClick={() => navigate("/sign-in")}
+          >
+            SIGN IN
+          </button>
 
           <div className="md:hidden">
             <button
               onClick={toggleMenu}
-              className="text-white z-50 relative"
+              className="text-white z-50 relative ml-4"
               aria-label={isMenuOpen ? "Close menu" : "Open menu"}
             >
               {isMenuOpen ? (
@@ -92,57 +136,70 @@ const HomePage: React.FC = () => {
               )}
             </button>
           </div>
+        </div>
+      </header>
 
-          <nav
-            className={`
-            md:block
-            ${
-              isMenuOpen
-                ? "fixed inset-0 bg-black bg-opacity-95 flex items-center justify-center"
-                : "hidden"
-            }
-          `}
-          >
-            <ul className="flex flex-col md:flex-row md:space-x-4 space-y-4 md:space-y-0 items-center">
+      {isMenuOpen && (
+        <div className="fixed inset-0 bg-black bg-opacity-95 z-40 md:hidden">
+          <nav className="flex items-center justify-center h-full">
+            <ul className="flex flex-col space-y-4 items-center">
               <li>
                 <a
                   href="#about-us"
-                  className="hover:underline block text-white text-lg md:text-base"
-                  onClick={() => isMenuOpen && toggleMenu()}
+                  className="text-white text-lg"
+                  onClick={toggleMenu}
                 >
                   About Us
                 </a>
               </li>
               <li>
                 <a
-                  href="#why-choose-us"
-                  className="hover:underline block text-white text-lg md:text-base"
-                  onClick={() => isMenuOpen && toggleMenu()}
+                  href="#faqs"
+                  className="text-white text-lg"
+                  onClick={toggleMenu}
                 >
-                  Why Choose Us
+                  Products
                 </a>
               </li>
               <li>
                 <a
                   href="#faqs"
-                  className="hover:underline block text-white text-lg md:text-base"
-                  onClick={() => isMenuOpen && toggleMenu()}
+                  className="text-white text-lg"
+                  onClick={toggleMenu}
                 >
                   FAQs
                 </a>
               </li>
               <li>
                 <a
+                  href="#about-us"
+                  className="text-white text-lg"
+                  onClick={toggleMenu}
+                >
+                  How To Claim
+                </a>
+              </li>
+              <li>
+                <a
+                  href="#why-choose-us"
+                  className="text-white text-lg"
+                  onClick={toggleMenu}
+                >
+                  Value-Added Services
+                </a>
+              </li>
+              <li>
+                <a
                   href="#verify"
-                  className="hover:underline block text-white text-lg md:text-base"
-                  onClick={() => isMenuOpen && toggleMenu()}
+                  className="text-white text-lg"
+                  onClick={toggleMenu}
                 >
                   Verify an Agent
                 </a>
               </li>
-              <li className="md:hidden">
+              <li>
                 <button
-                  className="bg-yellow-400 text-black px-4 py-2 rounded hover:bg-yellow-300 transition-colors text-lg"
+                  className="bg-yellow-400 text-black px-6 py-2 rounded hover:bg-yellow-300 transition-colors text-lg"
                   onClick={() => {
                     toggleMenu();
                     navigate("/sign-in");
@@ -153,17 +210,16 @@ const HomePage: React.FC = () => {
               </li>
             </ul>
           </nav>
+        </div>
+      )}
 
-          <button
-            className="bg-yellow-400 text-black px-4 py-2 rounded hover:bg-yellow-300 transition-colors hidden md:block"
-            onClick={() => navigate("/sign-in")}
-          >
-            SIGN IN
-          </button>
-        </header>
-
+      <div
+        className="min-h-screen bg-cover bg-center text-white flex flex-col"
+        style={{ backgroundImage: `url(${heroImage})` }}
+        id="about"
+      >
         {/* Main Content */}
-        <main className="flex flex-col items-center justify-end text-center flex-grow pb-20 mx-2">
+        <main className="flex flex-col items-center justify-end text-center flex-grow pb-20 mx-2 pt-20">
           <h1 className="text-4xl lg:text-6xl font-bold mb-4">
             Your Trusted Partner
             <br /> in Life's Final Tribute.
