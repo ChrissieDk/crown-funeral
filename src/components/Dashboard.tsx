@@ -1,11 +1,11 @@
 import { useState } from "react";
-import Sidebar from "./Dashboard components/Sidebar";
-import Welcome from "./Dashboard components/Welcome";
-import PersonalDetails from "./Dashboard components/PersonalDetails";
-import ClaimsComponent from "./Dashboard components/Claims";
-import ContactUsModal from "./Dashboard components/ContactUs";
-import SymptomChecker from "./Dashboard components/SymptomChecker";
-import WellnessApp from "./Dashboard components/WelnessApp";
+import Sidebar from "./dashboard components/Sidebar";
+import Welcome from "./dashboard components/Welcome";
+import PersonalDetails from "./dashboard components/PersonalDetails";
+import ClaimsComponent from "./dashboard components/Claims";
+import ContactUsModal from "./dashboard components/ContactUs";
+import SymptomChecker from "./dashboard components/SymptomChecker";
+import WellnessApp from "./dashboard components/WelnessApp";
 
 const Dashboard = () => {
   const [activePage, setActivePage] = useState("Home");

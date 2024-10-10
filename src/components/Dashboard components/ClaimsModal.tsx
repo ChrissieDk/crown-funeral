@@ -32,25 +32,28 @@ const ModernChecklist: React.FC<ModernChecklistProps> = ({ closeModal }) => {
     {
       title: "Required Documents",
       items: [
-        "Death certificate",
-        "Proof of identity",
-        "Relevant policy documents",
+        "Certified copy of policyholder’s ID",
+        "Certified copy of beneficiary’s ID (if deceased is the policyholder)",
+        " Certified copy of deceased member’s ID or birth certificate",
+        "Police report in case of an unnatural death",
+        "Certified copy of deceased’s death certificate",
+        "BI-1663 form with complete information of the notice of death",
+        "Copy of beneficiary’s bank statement with bank stamp",
+        "Any other documents/reports needed to assess the validity of the claim",
       ],
     },
   ];
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // Here you would typically send the form data to your backend
     console.log("Submitting form with:", { name, phone });
-    // After successful submission, close the modal
     closeModal();
   };
 
   return (
     <form
       onSubmit={handleSubmit}
-      className="bg-[#333333] p-8 rounded-lg max-w-xl w-full"
+      className="bg-[#333333] p-4 rounded-lg max-w-xl w-full"
     >
       <h3 className="text-xl font-semibold text-white mb-6">Submit a Claim</h3>
       <p className="text-[#CCCCCC] text-sm mb-4">
