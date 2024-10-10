@@ -149,13 +149,17 @@ const Navbar: React.FC<NavbarProps> = ({ isScrolled }) => {
                 </a>
               </li>
               <li>
-                <a
-                  href="#faqs"
+                <Link
+                  to="/products"
                   className="text-white text-lg"
-                  onClick={toggleMenu}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    toggleMenu();
+                    navigate("/products");
+                  }}
                 >
                   Products
-                </a>
+                </Link>
               </li>
               <li>
                 <a
