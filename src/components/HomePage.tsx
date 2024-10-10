@@ -5,6 +5,7 @@ import AboutUsSection from "./AboutUs";
 import WhyChooseUsSection from "./WhyChooseUs";
 import FaqsSection from "./FaqsSection";
 import Navbar from "./Navbar";
+import Footer from "./Footer";
 
 const HomePage: React.FC = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -57,6 +58,7 @@ const HomePage: React.FC = () => {
       <AboutUsSection />
       <WhyChooseUsSection />
       <FaqsSection />
+      <Footer />
     </>
   );
 };
