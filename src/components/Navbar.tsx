@@ -44,45 +44,50 @@ const Navbar: React.FC<NavbarProps> = ({ isScrolled }) => {
         }`}
       >
         <div className="flex items-center">
-          <img src={logo} alt="Crown Funeral Logo" className="w-40 h-16" />
-        </div>
+          <Link to="/">
+            <img src={logo} alt="Crown Funeral Logo" className="w-40 h-16" />
+          </Link>
 
-        <nav className="hidden md:block">
-          <ul className="flex space-x-6">
-            <li>
-              <a href="#about-us" className="text-white hover:text-yellow-400">
-                About Us
-              </a>
-            </li>
-            <li>
-              <Link to="/products" className="text-white hover:text-yellow-400">
-                Products
-              </Link>
-            </li>
-            <li>
-              <a href="#faqs" className="text-white hover:text-yellow-400">
-                FAQs
-              </a>
-            </li>
-            <li>
-              <a href="#about-us" className="text-white hover:text-yellow-400">
-                How To Claim
-              </a>
-            </li>
-            <li>
-              <a
-                href="#why-choose-us"
-                className="text-white hover:text-yellow-400"
-              >
-                Value-Added Services
-              </a>
-            </li>
-          </ul>
-        </nav>
+          <nav className="hidden md:block ml-10">
+            <ul className="flex space-x-16">
+              <li>
+                <a href="#about-us" className="text-white hover:text-[#B8A061]">
+                  About Us
+                </a>
+              </li>
+              <li>
+                <Link
+                  to="/products"
+                  className="text-white hover:text-[#B8A061]"
+                >
+                  Products
+                </Link>
+              </li>
+              <li>
+                <a href="#faqs" className="text-white hover:text-[#B8A061]">
+                  FAQs
+                </a>
+              </li>
+              <li>
+                <a href="#about-us" className="text-white hover:text-[#B8A061]">
+                  How To Claim
+                </a>
+              </li>
+              <li>
+                <a
+                  href="#why-choose-us"
+                  className="text-white hover:text-[#B8A061]"
+                >
+                  Value-Added Services
+                </a>
+              </li>
+            </ul>
+          </nav>
+        </div>
 
         <div className="flex items-center">
           <button
-            className="bg-yellow-400 text-black px-6 py-2 rounded hover:bg-yellow-300 transition-colors hidden md:block"
+            className="bg-[#B8A061] text-black px-6 py-2 rounded hover:bg-yellow-300 transition-colors hidden md:block"
             onClick={() => navigate("/sign-in")}
           >
             SIGN IN
