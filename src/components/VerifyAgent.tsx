@@ -17,9 +17,15 @@ const VerifyAgentSection = () => {
             Protect What Matters Most
           </h2>
           <p className="mb-4 px-4">
-            Secure your family's future with our comprehensive funeral policies.
-            At Crown Funeral Services, we offer tailored plans to ensure your
-            loved ones are financially protected during difficult times.
+            Ensure your family's financial security with our comprehensive
+            funeral plans. At Crown Funeral, we offer tailored policies that
+            provide peace of mind during life's most difficult moments.
+            <br /> Our plans are designed to shield your loved ones from
+            financial burden, allowing them to focus on what matters most:{" "}
+            <span className="text-[#B8A061] ">
+              celebrating your life and legacy.
+            </span>{" "}
+            Protect your legacy with Crown Funeral.
           </p>
           <div className="h-1 w-full lg:w-[130%] absolute bg-yellow-500 lg:ml-4"></div>
         </div>
