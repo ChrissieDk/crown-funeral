@@ -86,12 +86,12 @@ const Navbar: React.FC<NavbarProps> = ({ isScrolled }) => {
         </div>
 
         <div className="flex items-center">
-          <button
+          {/* <button
             className="bg-[#B8A061] text-black px-6 py-2 rounded hover:bg-yellow-300 transition-colors hidden md:block"
             onClick={() => navigate("/sign-in")}
           >
             SIGN IN
-          </button>
+          </button> */}
 
           <div className="md:hidden">
             <button

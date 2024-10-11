@@ -1,7 +1,10 @@
 import crownImage from "../assets/crown icon.png";
 import crownDark from "../assets/crown black.png";
+import { Link } from "react-router-dom";
+import { useState } from "react";
 
 const WhyChooseUsSection = () => {
+  const [memberType, setMemberType] = useState("new");
   return (
     <div className="bg-white" id="why-choose-us">
       {/* Top Section with White Background */}
@@ -17,24 +20,32 @@ const WhyChooseUsSection = () => {
         </h2>
 
         {/* Feature Cards */}
-        <div className="flex flex-wrap justify-center gap-4 mb-8">
+        <div className="flex flex-wrap justify-center gap-4 mb-4">
           {["Affordable Plans:", "Simple Process:", "Peace of Mind:"].map(
             (title, index) => (
               <div
                 key={index}
-                className="bg-[#CFB46E] rounded-lg p-4 text-center w-full md:w-64"
+                className="bg-[#B8A061] rounded-lg p-4 text-center w-full md:w-64"
               >
                 <h3 className="font-bold text-white">{title}</h3>
                 <p className="text-sm font-semibold">
                   {index === 0
                     ? "Flexible options to suit your budget."
                     : index === 1
-                    ? "Easy enrollment with minimal paperwork."
-                    : "Coverage that guarantees support when it's needed most."}
+                    ? "Easy sign up with very little paperwork."
+                    : "Cover that guarantees support when it’s needed most."}
                 </p>
               </div>
             )
           )}
+        </div>
+        <div className="flex justify-center mb-4">
+          <Link
+            to="/products"
+            className="bg-[#B8A061] hover:bg-[#a38c54] text-white font-bold py-2 px-4 rounded transition duration-300"
+          >
+            Learn More
+          </Link>
         </div>
       </div>
 
@@ -54,19 +65,45 @@ const WhyChooseUsSection = () => {
                 Get Started Today
               </h1>
               <h3 className="mb-4 text-xl lg:text-2xl max-w-2xl">
-                Safeguard your family's future with a plan that gives you and
-                your loved ones peace of mind. Contact us now to learn more
-                about our funeral policy options.
+                Speak to one of our friendly agents today! Safeguard your
+                family’s future with a plan that provides peace of mind for you
+                and your loved ones. Simply fill in the form and an agent will
+                be in touch shortly to tell you more about our funeral policy
+                options.
               </h3>
             </div>
 
             {/* Form */}
-            <div className="w-full md:w-1/3 bg-black text-white p-8 rounded-lg shadow-lg ">
+            <div className="w-full md:w-1/3 bg-black text-white p-8 rounded-lg shadow-lg">
               <h4 className="text-xl font-bold mb-4 text-center">
-                Protect What Matters Most - Start Now
+                Fill out the fields below and we'll call you back:
               </h4>
-              <p className="mb-4 text-center">Fill out the form below:</p>
-              <form className="space-y-4 ">
+              <form className="space-y-4">
+                <div className="flex justify-center space-x-4 mb-4">
+                  <label className="inline-flex items-center">
+                    <input
+                      type="radio"
+                      className="form-radio"
+                      name="memberType"
+                      value="new"
+                      checked={memberType === "new"}
+                      onChange={() => setMemberType("new")}
+                    />
+                    <span className="ml-2">New Member</span>
+                  </label>
+                  <label className="inline-flex items-center">
+                    <input
+                      type="radio"
+                      className="form-radio"
+                      name="memberType"
+                      value="current"
+                      checked={memberType === "current"}
+                      onChange={() => setMemberType("current")}
+                    />
+                    <span className="ml-2">Current Member</span>
+                  </label>
+                </div>
+
                 <div>
                   <label htmlFor="fullName" className="block mb-1">
                     Full Name
@@ -97,6 +134,33 @@ const WhyChooseUsSection = () => {
                     className="w-full p-2 rounded bg-gray-800"
                   />
                 </div>
+
+                {memberType === "new" && (
+                  <div>
+                    <label htmlFor="province" className="block mb-1">
+                      Province
+                    </label>
+                    <input
+                      type="text"
+                      id="province"
+                      className="w-full p-2 rounded bg-gray-800"
+                    />
+                  </div>
+                )}
+
+                {memberType === "current" && (
+                  <div>
+                    <label htmlFor="membershipId" className="block mb-1">
+                      Membership / ID Number
+                    </label>
+                    <input
+                      type="text"
+                      id="membershipId"
+                      className="w-full p-2 rounded bg-gray-800"
+                    />
+                  </div>
+                )}
+
                 <button
                   type="submit"
                   className="w-full bg-yellow-200 text-black font-bold py-2 px-4 rounded hover:bg-[#CFB46E] transition-colors"

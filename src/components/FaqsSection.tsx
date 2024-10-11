@@ -6,32 +6,70 @@ const faqData = [
   {
     question: "What is funeral cover?",
     answer:
-      "Funeral cover is insurance that helps pay for funeral expenses, such as services, burial or cremation, and related costs, easing the financial burden on the family.",
+      "Funeral cover is insurance that helps pay for funeral expenses, such as services, burial or cremation, as well as related costs, easing the financial burden on the family.",
   },
   {
-    question: "How can I join? ",
+    question: "Why do you need a funeral plan?",
     answer:
-      "Interested customers can request a call or speak to a field agent to learn more about joining. Our team will guide you through the process, answer any questions, and help you find the best coverage for your needs.",
+      "To prepare for the expense of a funeral. Funerals can strain your family financially. So get peace of mind for everyone in knowing that you're covered for the cost of a funeral.",
+  },
+  {
+    question: "Who qualifies for Crown Funeral cover?",
+    answer:
+      "Our funeral services are specifically designed for SASSA recipients aged 18 to 79.",
+  },
+  {
+    question: "How can I join?",
+    answer:
+      "Interested customers may request a call from our helpful staff directly or schedule a meeting with a field agent in person. Our team will guide you through the process, answer any questions, and help you find the best cover for your needs.",
+  },
+  {
+    question: "Do you cover spouses?",
+    answer:
+      "Yes, 'spouse' refers to someone who is married to the policyholder (main member) before the start date of the Funeral Plan. This relationship must be in place when the cover is applied for. 'Married' refers to the relationship between the policyholder and their spouse, which must be in place at the time of death. This includes when two people are: Married according to the laws of South Africa; Married according to customary or tribal law; Married under any religion practised in South Africa; Living together for at least two years, with satisfactory proof of the permanency of the relationship provided upon request by the insurer; or Party to a civil union in terms of the Civil Union Act, 2006.",
   },
   {
     question: "What are the age limits for joining?",
-    answer:
-      "The youngest participants can be as young as 16 years old, while the oldest can be up to 84 years old.",
+    answer: "Anyone from as young as 16 up to 84.",
   },
   {
-    question: "How to claim?",
+    question: "How much am I covered for?",
     answer:
-      "Members can simply send their claim along with their membership number/ID number to claims@crown.co.za ",
+      "For each policy, the maximum cover amount is: R30 000 (Thirty Thousand Rand) for a direct family member (e.g., spouse, child or parent), R5 000 (Five Thousand Rand) for an extended family member (e.g., sibling, grandchild or grandparent). If you have multiple policies with us, the maximum total cover amount we will pay out for a deceased person is: R10 000 (Ten Thousand Rand) for children under 5 years old, R30 000 (Thirty Thousand Rand) for children between 6 and 13 years old, R60 000 (Sixty Thousand Rand) for anyone over 13 years old.",
+  },
+  {
+    question: "What are the waiting periods?",
+    answer:
+      "Natural cause of death: 6 months. Death due to suicide: 12 months. Accidental death: No waiting period. FeelBetterFast voucher benefit: 6 months.",
+  },
+  {
+    question: "What value-added services does the funeral plan offer?",
+    answer:
+      "Burial Repatriation Benefit: Helps cover the costs and arrangements of bringing your loved one's remains home for burial. Health Coach: Our activity trackers help you set goals, track progress, and earn rewards to stay motivated and healthy. Symptom Check and Symptom Checker: Health Assist provides affordable, professional support, including real-time doctor chats and a symptom checker for expert advice. FeelBetterFast Minor Ailment Service: Redeemable at your local pharmacy, this service voucher efficiently addresses minor health concerns.",
+  },
+  {
+    question: "How do I claim?",
+    answer:
+      "Members may send their claim along with their membership number or ID number to funeralclaims@getsavvi.co.za.",
   },
   {
     question: "Who will receive the payout amount at the claims stage?",
     answer:
-      "We encourage members to regularly update their beneficiary details to ensure that the payout is made to the correct individual.",
+      "The beneficiary/ies listed on the member's policy. We encourage policyholders to regularly update their beneficiary details to ensure that the payout is made to the correct individual/s.",
   },
   {
-    question: "What are the value-added benefits?",
+    question: "What are the maximum age limits for membership?",
     answer:
-      "Symptom Check BOT: Members can use our symptom check BOT for a quick diagnosis and advice on how to feel better.",
+      "Main member and spouse: 84 years. Child: 26 years. Extended family member: 74 years.",
+  },
+  {
+    question: "What is a FeelBetterFast voucher?",
+    answer:
+      "A FeelBetterFast voucher entitles you to a free consultation at a network pharmacy for minor ailments, vaccinations or health tests. As a main member, you'll receive one voucher per year.",
+  },
+  {
+    question: "How to claim a FeelBetterFast voucher?",
+    answer: "Contact our Call Centre on 0861 18 92 02 to request yours.",
   },
 ];
 
