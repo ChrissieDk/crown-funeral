@@ -850,7 +850,7 @@ const PricingComponent = () => {
                 {expandedSection === plan ? <FaChevronUp /> : <FaChevronDown />}
               </button>
               {expandedSection === plan && (
-                <div className="p-4 border-t border-[#CFB46D]">
+                <div className="p-4 border-t border-[#cfb46D]">
                   {renderTable(plan)}
                 </div>
               )}
