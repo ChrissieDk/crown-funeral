@@ -1,5 +1,5 @@
 import React from "react";
-import KP from "../assets/KP.png";
+import KP from "../assets/kp_white.png";
 import GSH from "../assets/GSH_Logo.png";
 import Crown from "../assets/CROWN.png";
 

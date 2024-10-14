@@ -814,26 +814,26 @@ const PricingComponent = () => {
 
   return (
     <div className="bg-[#1A1A1A] text-white p-8 font-sans">
-      <h1 className="text-4xl lg:text-6xl font-bold mb-4 text-[#CFB46D]">
+      <h1 className="text-4xl lg:text-5xl font-bold mb-4 text-[#CFB46D]">
         Pricing
       </h1>
-      <p className="mb-4 text-lg lg:text-xl">
+      <p className="mb-4 text-md lg:text-lg">
         Funerals can be a significant financial burden on your family. With our
         Funeral Cover, you can have peace of mind knowing that you're prepared
         for this expense.
       </p>
-      <p className="mb-4 text-lg lg:text-xl">
+      <p className="mb-4 text-md lg:text-lg">
         Our plans are flexible, with prices based on your age, needs, and chosen
         cover amount.
       </p>
-      <p className="mb-4 text-lg lg:text-xl">
+      <p className="mb-4 text-md lg:text-lg">
         Please refer to the rates table below to find the best plan for you.
       </p>
-      <p className="mb-8 text-lg lg:text-xl">
+      <p className="mb-8 text-md lg:text-lg">
         If you'd prefer to speak with a consultant, simply request a call back
         or contact our call centre at 0861 18 92 02.
       </p>
-      <h2 className="text-4xl lg:text-6xl font-bold mb-4 text-[#CFB46D]">
+      <h2 className="text-4xl lg:text-5xl font-bold mb-4 text-[#CFB46D]">
         Rates Table
       </h2>
       <div className="space-y-2">

@@ -38,7 +38,7 @@ const VerifyAgentSection = () => {
         </div>
       </div>
       <div className="flex flex-col md:flex-row">
-        <div className="bg-yellow-700 md:w-1/3 py-4 px-6 flex items-center justify-center">
+        <div className="bg-[#B8A061] md:w-1/3 py-4 px-6 flex items-center justify-center">
           <span className="text-white font-bold text-xl">VERIFY AN AGENT</span>
         </div>
         <div className="bg-white md:w-2/3 py-4 px-6 flex flex-col md:flex-row items-center justify-between">
