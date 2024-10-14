@@ -10,14 +10,12 @@ const WhyChooseUsSection = () => {
       {/* Top Section with White Background */}
       <div className="container mx-auto px-4 ">
         {/* Title */}
-        <h2 className="text-4xl lg:text-6xl font-bold text-center py-8 ">
-          Why Choose Us?
-          <img
-            src={crownImage}
-            alt="Crown"
-            className="inline-block w-10 h-8 lg:w-20 lg:h-10 -mt-2 ml-2"
-          />
-        </h2>
+        <div className="mb-8 lg:pt-10 flex flex-col items-center">
+          <img src={crownImage} alt="Crown icon" className="w-20 h-10 mb-2" />
+          <h2 className="text-4xl lg:text-6xl font-bold mb-6 text-center">
+            Why Choose Us?
+          </h2>
+        </div>
 
         {/* Feature Cards */}
         <div className="flex flex-wrap justify-center gap-4 mb-4">
