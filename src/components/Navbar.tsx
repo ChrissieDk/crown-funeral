@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import logo from "../assets/crown-logo-white.png";
 
 interface NavbarProps {
@@ -9,32 +9,52 @@ interface NavbarProps {
 const Navbar: React.FC<NavbarProps> = ({ isScrolled }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const navigate = useNavigate();
+  const location = useLocation();
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
     document.body.style.overflow = isMenuOpen ? "auto" : "hidden";
   };
 
-  useEffect(() => {
-    const handleScroll = (e: React.MouseEvent<HTMLAnchorElement>) => {
-      e.preventDefault();
-      const href = e.currentTarget.getAttribute("href");
-      const targetId = href?.replace("#", "");
-      const elem = document.getElementById(targetId || "");
+  const handleNavigation = (
+    e: React.MouseEvent<HTMLAnchorElement>,
+    target: string
+  ) => {
+    e.preventDefault();
+    if (location.pathname !== "/") {
+      navigate("/");
+      // We need to wait for the navigation to complete before scrolling
+      setTimeout(() => {
+        const elem = document.getElementById(target);
+        elem?.scrollIntoView({ behavior: "smooth" });
+      }, 100);
+    } else {
+      const elem = document.getElementById(target);
       elem?.scrollIntoView({ behavior: "smooth" });
-    };
+    }
+    if (isMenuOpen) toggleMenu();
+  };
 
+  useEffect(() => {
     const links = document.querySelectorAll('a[href^="#"]');
     links.forEach((link) =>
-      link.addEventListener("click", handleScroll as any)
+      link.addEventListener("click", (e) => {
+        const href = (e.currentTarget as HTMLAnchorElement).getAttribute(
+          "href"
+        );
+        const targetId = href?.replace("#", "");
+        if (targetId)
+          handleNavigation(
+            e as unknown as React.MouseEvent<HTMLAnchorElement>,
+            targetId
+          );
+      })
     );
 
     return () => {
-      links.forEach((link) =>
-        link.removeEventListener("click", handleScroll as any)
-      );
+      links.forEach((link) => link.removeEventListener("click", () => {}));
     };
-  }, []);
+  }, [location.pathname]);
 
   return (
     <>
@@ -51,7 +71,11 @@ const Navbar: React.FC<NavbarProps> = ({ isScrolled }) => {
           <nav className="hidden md:block ml-10">
             <ul className="flex space-x-16">
               <li>
-                <a href="#about-us" className="text-white hover:text-[#B8A061]">
+                <a
+                  href="#about-us"
+                  className="text-white hover:text-[#B8A061]"
+                  onClick={(e) => handleNavigation(e, "about-us")}
+                >
                   About Us
                 </a>
               </li>
@@ -64,21 +88,30 @@ const Navbar: React.FC<NavbarProps> = ({ isScrolled }) => {
                 </Link>
               </li>
               <li>
-                <a href="#faqs" className="text-white hover:text-[#B8A061]">
+                <a
+                  href="#faqs"
+                  className="text-white hover:text-[#B8A061]"
+                  onClick={(e) => handleNavigation(e, "faqs")}
+                >
                   FAQs
                 </a>
               </li>
-              <li>
-                <a href="#about-us" className="text-white hover:text-[#B8A061]">
+              {/* <li>
+                <a
+                  href="#about-us"
+                  className="text-white hover:text-[#B8A061]"
+                  onClick={(e) => handleNavigation(e, "about-us")}
+                >
                   How To Claim
                 </a>
-              </li>
+              </li> */}
               <li>
                 <a
                   href="#why-choose-us"
                   className="text-white hover:text-[#B8A061]"
+                  onClick={(e) => handleNavigation(e, "why-choose-us")}
                 >
-                  Value-Added Services
+                  Why Choose us
                 </a>
               </li>
             </ul>
@@ -86,13 +119,6 @@ const Navbar: React.FC<NavbarProps> = ({ isScrolled }) => {
         </div>
 
         <div className="flex items-center">
-          {/* <button
-            className="bg-[#B8A061] text-black px-6 py-2 rounded hover:bg-yellow-300 transition-colors hidden md:block"
-            onClick={() => navigate("/sign-in")}
-          >
-            SIGN IN
-          </button> */}
-
           <div className="md:hidden">
             <button
               onClick={toggleMenu}
@@ -143,7 +169,7 @@ const Navbar: React.FC<NavbarProps> = ({ isScrolled }) => {
                 <a
                   href="#about-us"
                   className="text-white text-lg"
-                  onClick={toggleMenu}
+                  onClick={(e) => handleNavigation(e, "about-us")}
                 >
                   About Us
                 </a>
@@ -152,11 +178,7 @@ const Navbar: React.FC<NavbarProps> = ({ isScrolled }) => {
                 <Link
                   to="/products"
                   className="text-white text-lg"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    toggleMenu();
-                    navigate("/products");
-                  }}
+                  onClick={toggleMenu}
                 >
                   Products
                 </Link>
@@ -165,39 +187,39 @@ const Navbar: React.FC<NavbarProps> = ({ isScrolled }) => {
                 <a
                   href="#faqs"
                   className="text-white text-lg"
-                  onClick={toggleMenu}
+                  onClick={(e) => handleNavigation(e, "faqs")}
                 >
                   FAQs
                 </a>
               </li>
-              <li>
+              {/* <li>
                 <a
                   href="#about-us"
                   className="text-white text-lg"
-                  onClick={toggleMenu}
+                  onClick={(e) => handleNavigation(e, "about-us")}
                 >
                   How To Claim
                 </a>
-              </li>
+              </li> */}
               <li>
                 <a
                   href="#why-choose-us"
                   className="text-white text-lg"
-                  onClick={toggleMenu}
+                  onClick={(e) => handleNavigation(e, "why-choose-us")}
                 >
-                  Value-Added Services
+                  Why Choose us
                 </a>
               </li>
-              <li>
+              {/* <li>
                 <a
                   href="#verify"
                   className="text-white text-lg"
-                  onClick={toggleMenu}
+                  onClick={(e) => handleNavigation(e, "verify")}
                 >
                   Verify an Agent
                 </a>
-              </li>
-              <li>
+              </li> */}
+              {/* <li>
                 <button
                   className="bg-yellow-400 text-black px-6 py-2 rounded hover:bg-yellow-300 transition-colors text-lg"
                   onClick={() => {
@@ -207,7 +229,7 @@ const Navbar: React.FC<NavbarProps> = ({ isScrolled }) => {
                 >
                   SIGN IN
                 </button>
-              </li>
+              </li> */}
             </ul>
           </nav>
         </div>

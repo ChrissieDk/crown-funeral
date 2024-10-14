@@ -43,12 +43,17 @@ const HomePage: React.FC = () => {
           </p>
 
           <div className="space-x-4">
-            <button className="bg-yellow-200 text-black px-6 py-3 rounded hover:bg-[#B8A061] transition-colors">
-              LEARN MORE
-            </button>
-            <button className="bg-transparent border-2 border-white px-6 py-3 rounded hover:bg-white hover:text-black transition-colors">
-              CALL ME
-            </button>
+            <a href="#about-us">
+              <button className="bg-yellow-200 text-black px-6 py-3 rounded hover:bg-[#B8A061] transition-colors">
+                LEARN MORE
+              </button>
+            </a>
+
+            <a href="#why-choose-us">
+              <button className="bg-transparent border-2 border-white px-6 py-3 rounded hover:bg-white hover:text-black transition-colors">
+                CALL ME
+              </button>
+            </a>
           </div>
         </main>
       </div>
