@@ -30,12 +30,12 @@ const faqData = [
   },
   {
     question: "What are the age limits for joining?",
-    answer: "Anyone from as young as 16 up to 84.",
+    answer: "Anyone from as young as 18 up to 79.",
   },
   {
     question: "How much am I covered for?",
     answer:
-      "For each policy, the maximum cover amount is: R30 000 (Thirty Thousand Rand) for a direct family member (e.g., spouse, child or parent), R5 000 (Five Thousand Rand) for an extended family member (e.g., sibling, grandchild or grandparent). If you have multiple policies with us, the maximum total cover amount we will pay out for a deceased person is: R10 000 (Ten Thousand Rand) for children under 5 years old, R30 000 (Thirty Thousand Rand) for children between 6 and 13 years old, R60 000 (Sixty Thousand Rand) for anyone over 13 years old.",
+      "Depending on Your Plan selection and Your age, the maximum Cover Amount per policy for a Policyholder is limited to R30 000 (Thirty Thousand Rand), R20 000 (Twenty Thousand Rand) for a Spouse and Children aged over 13 (Thirteen) years, and R5 000 (Five Thousand Rand) per Extended Family Member.",
   },
   {
     question: "What are the waiting periods?",
@@ -50,22 +50,22 @@ const faqData = [
   {
     question: "How do I claim?",
     answer:
-      "Members may send their claim along with their membership number or ID number to funeralclaims@getsavvi.co.za.",
+      "Members may send their claim along with their membership number or ID number to claims@crownfuneral.co.za ",
   },
   {
     question: "Who will receive the payout amount at the claims stage?",
     answer:
-      "The beneficiary/ies listed on the member's policy. We encourage policyholders to regularly update their beneficiary details to ensure that the payout is made to the correct individual/s.",
+      "If the Policyholder is still alive at claim stage, the Benefits will be paid to the Policyholder. Upon the death of the Policyholder, the Benefits will be paid to the nominated Beneficiary/s.",
   },
   {
     question: "What are the maximum age limits for membership?",
     answer:
-      "Main member and spouse: 84 years. Child: 26 years. Extended family member: 74 years.",
+      "Main member and spouse: 79 years. Child: 26 years. Extended family member: 74 years.",
   },
   {
     question: "What is a FeelBetterFast voucher?",
     answer:
-      "A FeelBetterFast voucher entitles you to a free consultation at a network pharmacy for minor ailments, vaccinations or health tests. As a main member, you'll receive one voucher per year.",
+      "A FeelBetterFast voucher entitles you to a free consultation at a network pharmacy for minor ailments, vaccinations or health tests. As a main member, you'll receive one voucher.",
   },
   {
     question: "How to claim a FeelBetterFast voucher?",
