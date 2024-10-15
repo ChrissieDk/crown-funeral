@@ -33,7 +33,7 @@ const Footer: React.FC = () => {
         <p className="text-xs leading-relaxed max-w-4xl mx-auto text-center">
           The Crown Funeral Plan is administered by GetSavvi Health (Pty) Ltd,
           an authorised Financial Services Provider (FSP No. 44283). The
-          intermediary is M and C Financial Service, an authorised Financial
+          intermediary is M and C Financial Services, an authorised Financial
           Services Provider (FSP No. 52811). The insurer is King Price Life
           Insurance Limited, a licensed insurer and authorised FSP no. 47235 |
           Registration no. 1948/029011/06.
