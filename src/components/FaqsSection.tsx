@@ -19,23 +19,19 @@ const faqData = [
       "Our funeral services are specifically designed for SASSA recipients aged 18 to 79.",
   },
   {
+    question: "Do you cover spouses?",
+    answer:
+      "Yes, 'spouse' refers to someone who is married to the policyholder (main member) before the start date of the Funeral Plan. This relationship must be in place when the cover is applied for. 'Married' refers to the relationship between the policyholder and their spouse, which must be in place at the time of death. This includes when two people are: Married according to the laws of South Africa; Married according to customary or tribal law; Married under any religion practised in South Africa; Living together for at least two years, with satisfactory proof of the permanency of the relationship provided upon request by the insurer; or Party to a civil union in terms of the Civil Union Act, 2006. Note: We only cover one spouse per plan. Additional spouses may be added as extended family members.",
+  },
+  {
     question: "How can I join?",
     answer:
       "Interested customers may request a call from our helpful staff directly or schedule a meeting with a field agent in person. Our team will guide you through the process, answer any questions, and help you find the best cover for your needs.",
   },
   {
-    question: "Do you cover spouses?",
-    answer:
-      "Yes, 'spouse' refers to someone who is married to the policyholder (main member) before the start date of the Funeral Plan. This relationship must be in place when the cover is applied for. 'Married' refers to the relationship between the policyholder and their spouse, which must be in place at the time of death. This includes when two people are: Married according to the laws of South Africa; Married according to customary or tribal law; Married under any religion practised in South Africa; Living together for at least two years, with satisfactory proof of the permanency of the relationship provided upon request by the insurer; or Party to a civil union in terms of the Civil Union Act, 2006.",
-  },
-  {
-    question: "What are the age limits for joining?",
-    answer: "Anyone from as young as 18 up to 79.",
-  },
-  {
     question: "How much am I covered for?",
     answer:
-      "Depending on Your Plan selection and Your age, the maximum Cover Amount per policy for a Policyholder is limited to R30 000 (Thirty Thousand Rand), R20 000 (Twenty Thousand Rand) for a Spouse and Children aged over 13 (Thirteen) years, and R5 000 (Five Thousand Rand) per Extended Family Member.",
+      "Depending on Your Plan selection and Your age, the maximum Cover Amount per policy for a Policyholder is limited to R30 000 (Thirty Thousand Rand), R20 000 (Twenty Thousand Rand) for a Spouse and Children aged over 13 (Thirteen) years, and R5 000 (Five Thousand Rand) per Extended Family Member. If you have multiple policies with us, the maximum total cover amount we will pay out for a deceased person is: R10 000 (Ten Thousand Rand) for children under 5 years old, R30 000 (Thirty Thousand Rand) for children between 6 and 13 years old, R60 000 (Sixty Thousand Rand) for anyone over 13 years old",
   },
   {
     question: "What are the waiting periods?",
@@ -45,12 +41,12 @@ const faqData = [
   {
     question: "What value-added services does the funeral plan offer?",
     answer:
-      "Burial Repatriation Benefit: Helps cover the costs and arrangements of bringing your loved one's remains home for burial. Health Coach: Our activity trackers help you set goals, track progress, and earn rewards to stay motivated and healthy. Symptom Check and Symptom Checker: Health Assist provides affordable, professional support, including real-time doctor chats and a symptom checker for expert advice. FeelBetterFast Minor Ailment Service: Redeemable at your local pharmacy, this service voucher efficiently addresses minor health concerns.",
+      "Burial Repatriation Benefit: Helps cover the costs and arrangements of bringing your loved one's remains home for burial. Health Coach: Our activity trackers help you set goals, track progress, and earn rewards to stay motivated and healthy. Symptom Check and Symptom Checker: Health Assist provides affordable, professional support, including real-time doctor chats and a symptom checker for expert advice. FeelBetterFast Minor Ailment Service: Redeemable at your local pharmacy, this service voucher efficiently addresses minor health concerns. The value-added services have no surrender value, and aren't underwritten by King Price Life Insurance Limited.",
   },
   {
     question: "How do I claim?",
     answer:
-      "Members may send their claim along with their membership number or ID number to claims@crownfuneral.co.za ",
+      "Members may send their claim along with their membership number or ID number to claims@crownfuneral.co.za",
   },
   {
     question: "Who will receive the payout amount at the claims stage?",
@@ -60,7 +56,7 @@ const faqData = [
   {
     question: "What are the maximum age limits for membership?",
     answer:
-      "Main member and spouse: 79 years. Child: 26 years. Extended family member: 74 years.",
+      "Main member and spouse: 79 years. Child: 21, and full-time students: 26. Extended family member: 74 years",
   },
   {
     question: "What is a FeelBetterFast voucher?",
