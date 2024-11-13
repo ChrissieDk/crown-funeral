@@ -275,7 +275,7 @@ const PricingComponent = () => {
                     rowSpan={5}
                     className="p-2 text-center border border-gray-600"
                   >
-                    220
+                    219
                   </td>
                   <td className="p-2 text-center border border-gray-600">
                     30 000
