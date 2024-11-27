@@ -16,22 +16,17 @@ if (!POL_AUTH_TOKEN || !POL_CLIENT_NAME) {
 
 const base64Credentials = btoa(`${ILLION_USERNAME}:${ILLION_PASSWORD}`);
 
-// Create axios instance with ONLY the x-authorization-token
-const polAxios = axios.create({
-  headers: {
-    "Content-Type": "application/json",
-    "x-authorization-token": POL_AUTH_TOKEN,
-  },
-});
-
 export const getPOL360AuthToken = async () => {
   try {
-    const response = await polAxios({
+    const response = await axios({
       method: "get",
       url: POL_BASE_URL,
       params: {
         Function: "GenerateAuthToken",
         ClientName: POL_CLIENT_NAME,
+      },
+      headers: {
+        "x-authorization-token": POL_AUTH_TOKEN,
       },
     });
 
@@ -51,10 +46,12 @@ export const getMemberInformation = async (
   memberType: string = "MEM"
 ) => {
   try {
+    // Get fresh token
     const token = await getPOL360AuthToken();
     console.log("Generated Token:", token);
 
-    const response = await polAxios({
+    // Separate request with token
+    const response = await axios({
       method: "get",
       url: POL_BASE_URL,
       params: {
@@ -65,7 +62,6 @@ export const getMemberInformation = async (
         PolicyNumber: policyNumber,
       },
       headers: {
-        "Content-Type": "application/json",
         "x-authorization-token": POL_AUTH_TOKEN,
         Authorization: `Bearer ${token}`,
       },
