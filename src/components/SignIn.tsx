@@ -31,13 +31,13 @@ const SignInPage: React.FC = () => {
         throw new Error("Please fill in all fields");
       }
 
-      // Attempt to get member information with provided credentials
-      const memberInfo = await getMemberInformation(
+      // Just validate credentials - no need to store the response
+      await getMemberInformation(
         credentials.idNumber,
         credentials.policyNumber
       );
 
-      // If successful, store the member info in sessionStorage
+      // If validation successful, store the credentials in sessionStorage
       sessionStorage.setItem(
         "memberInfo",
         JSON.stringify({
