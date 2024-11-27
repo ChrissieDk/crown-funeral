@@ -60,7 +60,7 @@ export const getMemberInformation = async (
     // Get fresh token
     const token = await getPOL360AuthToken();
 
-    // Make the request with all headers
+    // Make the request with all headers present
     const response = await axios({
       method: "get",
       url: POL_BASE_URL,
