@@ -77,3 +77,12 @@ export interface MemberInformation {
   Dependent: null[];
   Extended: null[];
 }
+
+export interface IllionUserData {
+  name: string;
+  surname: string;
+  mobile: string;
+  email: string;
+  policyNumber: string;
+  productName?: string;
+}
