@@ -2,10 +2,7 @@ import axios from "axios";
 import { IllionUserData } from "../Types";
 
 // Dynamic base URL based on environment
-const POL_BASE_URL = import.meta.env.PROD
-  ? "https://web09.pol360.co.za/api/360API.php" // Production URL
-  : "/pol360/api/360API.php"; // Development URL (proxy)
-
+const POL_BASE_URL = "/pol360/api/360API.php";
 const ILLION_BASE_URL =
   "https://api.one81.com/v1/Notification/AutoSignUpIllion";
 
