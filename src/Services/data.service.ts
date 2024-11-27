@@ -18,7 +18,7 @@ if (!POL_AUTH_TOKEN || !POL_CLIENT_NAME) {
 
 const base64Credentials = btoa(`${ILLION_USERNAME}:${ILLION_PASSWORD}`);
 
-// Create axios instance with default config
+// Create axioss instance with default config
 const polAxios = axios.create({
   headers: {
     "Content-Type": "application/json",
