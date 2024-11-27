@@ -3,10 +3,6 @@
     {
       "source": "/pol360/api/:path*",
       "destination": "https://web09.pol360.co.za/api/:path*"
-    },
-    {
-      "source": "/(.*)",
-      "destination": "/index.html"
     }
   ],
   "headers": [
