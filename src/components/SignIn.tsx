@@ -1,10 +1,64 @@
-import React from "react";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import crownSignIn from "../assets/crown-sign-in.png";
 import logo from "../assets/crown-logo-white.png";
-import { useNavigate } from "react-router-dom";
+import { getMemberInformation } from "../Services/data.service";
 
 const SignInPage: React.FC = () => {
   const navigate = useNavigate();
+  const [credentials, setCredentials] = useState({
+    policyNumber: "",
+    idNumber: "",
+  });
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { id, value } = e.target;
+    setCredentials((prev) => ({
+      ...prev,
+      [id === "policy-number" ? "policyNumber" : "idNumber"]: value,
+    }));
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
+    setError(null);
+
+    try {
+      if (!credentials.policyNumber || !credentials.idNumber) {
+        throw new Error("Please fill in all fields");
+      }
+
+      // Attempt to get member information with provided credentials
+      const memberInfo = await getMemberInformation(
+        credentials.idNumber,
+        credentials.policyNumber
+      );
+
+      // If successful, store the member info in sessionStorage
+      sessionStorage.setItem(
+        "memberInfo",
+        JSON.stringify({
+          policyNumber: credentials.policyNumber,
+          idNumber: credentials.idNumber,
+        })
+      );
+
+      // Navigate to dashboard
+      navigate("/dashboard");
+    } catch (err) {
+      setError(
+        err instanceof Error
+          ? err.message
+          : "Invalid credentials. Please check your policy number and ID number."
+      );
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <div className="min-h-screen bg-black text-white flex flex-col">
       <header className="p-4 flex justify-between items-center lg:px-[6.3rem]">
@@ -35,7 +89,14 @@ const SignInPage: React.FC = () => {
           <h2 className="text-3xl mb-4 font-bold">
             Sign in to view and manage your profile
           </h2>
-          <form className="space-y-4">
+
+          {error && (
+            <div className="bg-red-500 bg-opacity-10 border border-red-500 text-red-500 p-4 rounded mb-4">
+              {error}
+            </div>
+          )}
+
+          <form onSubmit={handleSubmit} className="space-y-4">
             <div>
               <label
                 className="block text-lg font-light"
@@ -46,7 +107,10 @@ const SignInPage: React.FC = () => {
               <input
                 id="policy-number"
                 type="text"
+                value={credentials.policyNumber}
+                onChange={handleInputChange}
                 className="w-full lg:w-[80%] bg-transparent border-b border-white py-2 focus:outline-none focus:border-[#CFB46D]"
+                disabled={loading}
               />
             </div>
             <div>
@@ -56,15 +120,24 @@ const SignInPage: React.FC = () => {
               <input
                 id="id-number"
                 type="text"
+                value={credentials.idNumber}
+                onChange={handleInputChange}
                 className="w-full lg:w-[80%] bg-transparent border-b border-white py-2 focus:outline-none focus:border-[#CFB46D]"
+                disabled={loading}
               />
             </div>
             <button
               type="submit"
-              className="bg-[#CFB46D] text-black font-semibold px-6 py-3 rounded w-auto lg:w-[40%] hover:bg-[#CFB46D] transition-colors mt-6"
-              onClick={() => navigate("/dashboard")}
+              className={`bg-[#CFB46D] text-black font-semibold px-6 py-3 rounded w-auto lg:w-[40%] 
+                ${
+                  loading
+                    ? "opacity-50 cursor-not-allowed"
+                    : "hover:bg-[#CFB46D]"
+                } 
+                transition-colors mt-6`}
+              disabled={loading}
             >
-              SIGN IN
+              {loading ? "SIGNING IN..." : "SIGN IN"}
             </button>
           </form>
         </div>

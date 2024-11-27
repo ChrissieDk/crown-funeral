@@ -1,13 +1,9 @@
 import { IoCheckmarkCircle } from "react-icons/io5";
 import { IoIosCloseCircle } from "react-icons/io";
+import { useMemberInfo } from "../../Hooks/useMemberInfo";
 
 const Welcome = () => {
-  const policyDetails = {
-    username: "John",
-    policyNumber: "22915/CF",
-    plan: "[Name]",
-    monthlyPremium: "R 600.00",
-  };
+  const { memberInfo, loading, error } = useMemberInfo();
 
   const services = [
     { name: "Wellness App", active: true },
@@ -16,10 +12,35 @@ const Welcome = () => {
     { name: "Registration", active: false },
   ];
 
+  if (loading) {
+    return (
+      <div className="p-8 max-w-5xl">
+        <div className="animate-pulse">
+          <div className="h-10 bg-gray-200 rounded w-1/3 mb-4"></div>
+          <div className="h-1 bg-gray-200 rounded w-full mb-6"></div>
+          <div className="rounded-t-3xl overflow-hidden">
+            <div className="bg-gray-200 p-6 h-32"></div>
+            <div className="bg-gray-300 p-6 h-48"></div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="p-8 max-w-5xl">
+        <div className="bg-red-50 border border-red-200 text-red-600 p-4 rounded">
+          Failed to load member information: {error}
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="p-8 max-w-5xl ">
       <h1 className="text-4xl font-bold mb-4 text-[#CFB46D]">
-        Welcome, {policyDetails.username}
+        Welcome, {memberInfo?.FirstName || "Member"}
       </h1>
       <hr className="border-gray-300 mb-6 w-full" />
 
@@ -29,15 +50,19 @@ const Welcome = () => {
           <div className="grid grid-cols-3 gap-4">
             <div>
               <p className="text-sm font-light">Policy</p>
-              <p className="font-bold">{policyDetails.policyNumber}</p>
+              <p className="font-bold">{memberInfo?.PolicyNumber}</p>
             </div>
             <div>
               <p className="text-sm font-light">Plan</p>
-              <p className="font-bold">{policyDetails.plan}</p>
+              <p className="font-bold">
+                {memberInfo?.PolicyHistory?.[0]?.PolicyDescription || "[Name]"}
+              </p>
             </div>
             <div>
               <p className="text-sm font-light">Monthly premium</p>
-              <p className="font-bold">{policyDetails.monthlyPremium}</p>
+              <p className="font-bold">
+                R {memberInfo?.PolicyHistory?.[0]?.Premium || "0.00"}
+              </p>
             </div>
           </div>
         </div>
