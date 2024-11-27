@@ -29,8 +29,9 @@ export default async function handler(req, res) {
     const data = await response.json();
 
     // Forward all response headers
-    Object.entries(response.headers.raw()).forEach(([key, value]) => {
+    Object.entries(response.headers).forEach(([key, value]) => {
       res.setHeader(key, value);
+      console.log("Setting header:", key, value);
     });
 
     res.status(response.status).json(data);
