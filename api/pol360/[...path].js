@@ -1,23 +1,20 @@
 // api/pol360/[...path].js
 export default async function handler(req, res) {
   const targetUrl = `https://web09.pol360.co.za/api${req.url.replace(
-    "/pol360/api",
+    "/api/pol360",
     ""
   )}`;
 
-  // Log incoming headers for debugging
-  console.log("Incoming headers:", req.headers);
-
   try {
+    // Preserve the exact header casing from the API docs
     const headers = {
-      ...req.headers,
-      host: "web09.pol360.co.za",
+      "Content-Type": "application/json",
       "x-authorization-token": process.env.VITE_POL_AUTH_TOKEN,
     };
 
-    // Make sure to forward the Authorization header if it exists
+    // Preserve Authorization header exactly as received
     if (req.headers.authorization) {
-      headers.Authorization = req.headers.authorization;
+      headers["Authorization"] = req.headers.authorization;
     }
 
     const response = await fetch(targetUrl, {
@@ -27,13 +24,6 @@ export default async function handler(req, res) {
     });
 
     const data = await response.json();
-
-    // Forward all response headers
-    Object.entries(response.headers).forEach(([key, value]) => {
-      res.setHeader(key, value);
-      console.log("Setting header:", key, value);
-    });
-
     res.status(response.status).json(data);
   } catch (error) {
     console.error("Proxy error:", error);
