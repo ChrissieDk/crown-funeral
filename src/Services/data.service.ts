@@ -1,8 +1,11 @@
 import axios from "axios";
 import { IllionUserData } from "../Types";
 
-// Base URL with proxy prefix
-const POL_BASE_URL = "https://web09.pol360.co.za/api/360API.php";
+// Dynamic base URL based on environment
+const POL_BASE_URL = import.meta.env.PROD
+  ? "https://web09.pol360.co.za/api/360API.php" // Production URL
+  : "/pol360/api/360API.php"; // Development URL (proxy)
+
 const ILLION_BASE_URL =
   "https://api.one81.com/v1/Notification/AutoSignUpIllion";
 
@@ -19,18 +22,35 @@ if (!POL_AUTH_TOKEN || !POL_CLIENT_NAME) {
 
 const base64Credentials = btoa(`${ILLION_USERNAME}:${ILLION_PASSWORD}`);
 
+// Axios instance with default configuration
+const polAxios = axios.create({
+  headers: {
+    "Content-Type": "application/json",
+    "x-authorization-token": POL_AUTH_TOKEN,
+  },
+});
+
+// Add response interceptor for better error handling
+polAxios.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    console.error("API Error:", {
+      status: error.response?.status,
+      data: error.response?.data,
+      url: error.config?.url,
+    });
+    return Promise.reject(error);
+  }
+);
+
 export const getPOL360AuthToken = async () => {
   try {
-    const response = await axios({
+    const response = await polAxios({
       method: "get",
       url: POL_BASE_URL,
       params: {
         Function: "GenerateAuthToken",
         ClientName: POL_CLIENT_NAME,
-      },
-      headers: {
-        "x-authorization-token": POL_AUTH_TOKEN,
-        "Content-Type": "application/json",
       },
     });
 
@@ -53,7 +73,7 @@ export const getMemberInformation = async (
     const token = await getPOL360AuthToken();
     console.log("Generated Token:", token);
 
-    const response = await axios({
+    const response = await polAxios({
       method: "get",
       url: POL_BASE_URL,
       params: {
@@ -64,9 +84,7 @@ export const getMemberInformation = async (
         PolicyNumber: policyNumber,
       },
       headers: {
-        Authorization: `Bearer ${token}`, // Correct Bearer token header
-        "x-authorization-token": POL_AUTH_TOKEN, // Custom token header
-        "Content-Type": "application/json", // JSON content type
+        Authorization: `Bearer ${token}`,
       },
     });
 

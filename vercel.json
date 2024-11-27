@@ -9,15 +9,42 @@
     {
       "source": "/pol360/api/:path*",
       "headers": [
-        { "key": "Authorization", "value": "Bearer *" },
-        { "key": "Access-Control-Allow-Origin", "value": "*" },
+        {
+          "key": "Access-Control-Allow-Credentials",
+          "value": "true"
+        },
+        {
+          "key": "Access-Control-Allow-Origin",
+          "value": "*"
+        },
         {
           "key": "Access-Control-Allow-Methods",
-          "value": "GET, POST, OPTIONS"
+          "value": "GET,DELETE,PATCH,POST,PUT,OPTIONS"
         },
         {
           "key": "Access-Control-Allow-Headers",
-          "value": "Authorization, x-authorization-token, Content-Type, Accept"
+          "value": "X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version, Authorization, x-authorization-token"
+        },
+        {
+          "key": "Access-Control-Expose-Headers",
+          "value": "Authorization, x-authorization-token"
+        }
+      ]
+    },
+    {
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "Access-Control-Allow-Origin",
+          "value": "*"
+        },
+        {
+          "key": "Access-Control-Allow-Methods",
+          "value": "GET,DELETE,PATCH,POST,PUT,OPTIONS"
+        },
+        {
+          "key": "Access-Control-Allow-Headers",
+          "value": "X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version, Authorization, x-authorization-token"
         }
       ]
     }

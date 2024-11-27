@@ -13,27 +13,18 @@ export default defineConfig({
   },
   server: {
     proxy: {
-      "/pol360/api": {
-        // Make this more specific to match your API path
+      "/pol360": {
         target: "https://web09.pol360.co.za",
         changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/pol360\/api/, "/api"), // Adjust rewrite to match full path
+        rewrite: (path) => path.replace(/^\/pol360/, ""),
         secure: false,
         configure: (proxy, _options) => {
           proxy.on("proxyReq", (proxyReq, req, _res) => {
-            // Forward all necessary headers
-            if (req.headers["authorization"]) {
-              proxyReq.setHeader("Authorization", req.headers["authorization"]);
+            // Ensure headers are properly set
+            const authHeader = req.headers["authorization"];
+            if (authHeader) {
+              proxyReq.setHeader("Authorization", authHeader);
             }
-            if (req.headers["x-authorization-token"]) {
-              proxyReq.setHeader(
-                "x-authorization-token",
-                req.headers["x-authorization-token"]
-              );
-            }
-            // Ensure content-type is set
-            proxyReq.setHeader("Content-Type", "application/json");
-            proxyReq.setHeader("Accept", "application/json");
           });
         },
       },
