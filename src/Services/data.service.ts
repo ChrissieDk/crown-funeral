@@ -62,6 +62,7 @@ export const getMemberInformation = async (
         Authorization: `Bearer ${token}`,
         Accept: "application/json",
         "Content-Type": "application/json",
+        "x-authorization-token": POL_AUTH_TOKEN, // Make sure this is included
       },
     });
 
@@ -86,6 +87,7 @@ export const getMemberInformation = async (
       response.data.Message || "Failed to get member information"
     );
   } catch (error: any) {
+    console.error("Full error response:", error.response); // Add this for debugging
     const errorMessage = error.response?.data?.Message || error.message;
     throw new Error(errorMessage);
   }
