@@ -15,6 +15,7 @@ const POL_CLIENT_NAME = import.meta.env.VITE_POL_CLIENT_NAME;
 if (!POL_AUTH_TOKEN || !POL_CLIENT_NAME) {
   throw new Error("Missing required environment variables for POL360 service");
 }
+
 // Illion
 const ILLION_USERNAME = import.meta.env.VITE_ILLION_USERNAME;
 const ILLION_PASSWORD = import.meta.env.VITE_ILLION_PASSWORD;
@@ -29,16 +30,15 @@ export const getPOL360AuthToken = async () => {
       method: "get",
       url: POL_BASE_URL,
       params: {
-        Function: "GenerateAuthToken",
+        Function: "GenerateAuthToken", // This was incorrect before
         ClientName: POL_CLIENT_NAME,
       },
       headers: {
         "x-authorization-token": POL_AUTH_TOKEN,
-        "Access-Control-Allow-Origin": "*",
-        "Access-Control-Allow-Methods": "GET,POST,OPTIONS",
-        "Access-Control-Allow-Headers":
-          "x-authorization-token,Authorization,Content-Type",
+        Accept: "application/json",
+        "Content-Type": "application/json",
       },
+      withCredentials: true,
     });
 
     if (response.data.Result === "Success") {
@@ -60,18 +60,8 @@ export const getMemberInformation = async (
     // Get fresh token
     const token = await getPOL360AuthToken();
 
-    // Create the axios instance with headers
-    const axiosInstance = axios.create({
-      headers: {
-        Authorization: `Bearer ${token}`,
-        Accept: "application/json",
-        "Content-Type": "application/json",
-        "x-authorization-token": POL_AUTH_TOKEN, // Make sure this is included
-      },
-    });
-
-    // Make the request
-    const response = await axiosInstance({
+    // Make the request with all headers
+    const response = await axios({
       method: "get",
       url: POL_BASE_URL,
       params: {
@@ -81,6 +71,13 @@ export const getMemberInformation = async (
         MemberType: memberType,
         PolicyNumber: policyNumber,
       },
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "x-authorization-token": POL_AUTH_TOKEN,
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      withCredentials: true,
     });
 
     if (response.data.Result === "Success") {
@@ -91,7 +88,7 @@ export const getMemberInformation = async (
       response.data.Message || "Failed to get member information"
     );
   } catch (error: any) {
-    console.error("Full error response:", error.response); // Add this for debugging
+    console.error("Full error response:", error.response);
     const errorMessage = error.response?.data?.Message || error.message;
     throw new Error(errorMessage);
   }
