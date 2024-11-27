@@ -1,8 +1,8 @@
 {
   "rewrites": [
     {
-      "source": "/pol360/api/:path*",
-      "destination": "https://web09.pol360.co.za/api/:path*"
+      "source": "/pol360/api/360API.php",
+      "destination": "https://web09.pol360.co.za/api/360API.php"
     },
     {
       "source": "/(.*)",
@@ -21,7 +21,7 @@
         },
         {
           "key": "Access-Control-Allow-Headers",
-          "value": "X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version, x-authorization-token"
+          "value": "X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version, Authorization, x-authorization-token"
         }
       ]
     }

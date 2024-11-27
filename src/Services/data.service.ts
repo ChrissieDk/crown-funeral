@@ -34,6 +34,10 @@ export const getPOL360AuthToken = async () => {
       },
       headers: {
         "x-authorization-token": POL_AUTH_TOKEN,
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Methods": "GET,POST,OPTIONS",
+        "Access-Control-Allow-Headers":
+          "x-authorization-token,Authorization,Content-Type",
       },
     });
 
