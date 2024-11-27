@@ -3,6 +3,10 @@
     {
       "source": "/api/pol360/:path*",
       "destination": "https://web09.pol360.co.za/api/:path*"
+    },
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
     }
   ],
   "headers": [
@@ -17,6 +21,10 @@
         {
           "key": "Access-Control-Allow-Headers",
           "value": "Authorization, x-authorization-token, Content-Type, Accept"
+        },
+        {
+          "key": "Access-Control-Allow-Credentials",
+          "value": "true"
         }
       ]
     }
