@@ -17,7 +17,7 @@ export default async function handler(req, res) {
 
     // Make sure to forward the Authorization header if it exists
     if (req.headers.authorization) {
-      headers.authorization = req.headers.authorization;
+      headers.Authorization = req.headers.authorization;
     }
 
     const response = await fetch(targetUrl, {
