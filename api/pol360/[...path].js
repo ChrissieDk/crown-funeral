@@ -5,20 +5,30 @@ export default async function handler(req, res) {
     ""
   )}`;
 
+  // Log incoming headers for debugging
+  console.log("Incoming headers:", req.headers);
+
   try {
+    const headers = {
+      ...req.headers,
+      host: "web09.pol360.co.za",
+      "x-authorization-token": process.env.VITE_POL_AUTH_TOKEN,
+    };
+
+    // Make sure to forward the Authorization header if it exists
+    if (req.headers.authorization) {
+      headers.authorization = req.headers.authorization;
+    }
+
     const response = await fetch(targetUrl, {
       method: req.method,
-      headers: {
-        ...req.headers,
-        host: "web09.pol360.co.za",
-        "x-authorization-token": process.env.VITE_POL_AUTH_TOKEN,
-      },
+      headers: headers,
       ...(req.method !== "GET" && { body: JSON.stringify(req.body) }),
     });
 
     const data = await response.json();
 
-    // Forward the response headers
+    // Forward all response headers
     Object.entries(response.headers.raw()).forEach(([key, value]) => {
       res.setHeader(key, value);
     });
@@ -26,6 +36,8 @@ export default async function handler(req, res) {
     res.status(response.status).json(data);
   } catch (error) {
     console.error("Proxy error:", error);
-    res.status(500).json({ error: "Internal Server Error" });
+    res
+      .status(500)
+      .json({ error: "Internal Server Error", details: error.message });
   }
 }

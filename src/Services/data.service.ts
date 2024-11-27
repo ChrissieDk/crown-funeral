@@ -1,7 +1,6 @@
 import axios from "axios";
 import { IllionUserData } from "../Types";
 
-// Dynamic base URL based on environment
 const POL_BASE_URL = "/pol360/api/360API.php";
 const ILLION_BASE_URL =
   "https://api.one81.com/v1/Notification/AutoSignUpIllion";
@@ -19,26 +18,13 @@ if (!POL_AUTH_TOKEN || !POL_CLIENT_NAME) {
 
 const base64Credentials = btoa(`${ILLION_USERNAME}:${ILLION_PASSWORD}`);
 
-// Axios instance with default configuration
+// Create axios instance with default config
 const polAxios = axios.create({
   headers: {
     "Content-Type": "application/json",
     "x-authorization-token": POL_AUTH_TOKEN,
   },
 });
-
-// Add response interceptor for better error handling
-polAxios.interceptors.response.use(
-  (response) => response,
-  (error) => {
-    console.error("API Error:", {
-      status: error.response?.status,
-      data: error.response?.data,
-      url: error.config?.url,
-    });
-    return Promise.reject(error);
-  }
-);
 
 export const getPOL360AuthToken = async () => {
   try {
@@ -52,6 +38,10 @@ export const getPOL360AuthToken = async () => {
     });
 
     if (response.data.Result === "Success") {
+      // Update the axios instance default headers with the new token
+      polAxios.defaults.headers.common[
+        "Authorization"
+      ] = `Bearer ${response.data.JWTToken}`;
       return response.data.JWTToken;
     }
     throw new Error(response.data.Message || "Failed to get auth token");
@@ -70,6 +60,7 @@ export const getMemberInformation = async (
     const token = await getPOL360AuthToken();
     console.log("Generated Token:", token);
 
+    // Use the polAxios instance which now has the Authorization header set
     const response = await polAxios({
       method: "get",
       url: POL_BASE_URL,
@@ -81,7 +72,7 @@ export const getMemberInformation = async (
         PolicyNumber: policyNumber,
       },
       headers: {
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${token}`, // Explicitly set the header again to be safe
       },
     });
 
@@ -94,6 +85,7 @@ export const getMemberInformation = async (
     );
   } catch (error: any) {
     console.error("Full error response:", error.response);
+    console.error("Request headers:", error.config?.headers); // Add this to debug headers
     throw new Error(error.response?.data?.Message || error.message);
   }
 };
