@@ -1,29 +1,19 @@
 {
-  "routes": [
+  "rewrites": [
     {
-      "src": "/pol360/api/(.*)",
-      "dest": "https://web09.pol360.co.za/api/$1",
-      "headers": {
-        "Access-Control-Allow-Origin": "*",
-        "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
-        "Access-Control-Allow-Headers": "Authorization, x-authorization-token, Content-Type, Accept",
-        "Access-Control-Allow-Credentials": "true"
-      },
-      "continue": true
+      "source": "/pol360/api/:path*",
+      "destination": "https://web09.pol360.co.za/api/:path*"
     },
     {
-      "src": "/(.*)",
-      "dest": "/index.html"
+      "source": "/(.*)",
+      "destination": "/index.html"
     }
   ],
   "headers": [
     {
-      "source": "/(.*)",
+      "source": "/pol360/api/(.*)",
       "headers": [
-        {
-          "key": "Access-Control-Allow-Origin",
-          "value": "*"
-        },
+        { "key": "Access-Control-Allow-Origin", "value": "*" },
         {
           "key": "Access-Control-Allow-Methods",
           "value": "GET, POST, OPTIONS"
@@ -34,5 +24,11 @@
         }
       ]
     }
-  ]
+  ],
+  "functions": {
+    "api/proxy.js": {
+      "memory": 1024,
+      "maxDuration": 10
+    }
+  }
 }
