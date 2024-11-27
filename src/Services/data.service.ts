@@ -1,8 +1,8 @@
 import axios from "axios";
 import { IllionUserData } from "../Types";
 
-// Base URLs
-const POL_BASE_URL = "https://web09.pol360.co.za/api/360API.php";
+// Base URL with proxy prefix
+const POL_BASE_URL = "/pol360/api/360API.php";
 const ILLION_BASE_URL =
   "https://api.one81.com/v1/Notification/AutoSignUpIllion";
 
@@ -17,7 +17,6 @@ if (!POL_AUTH_TOKEN || !POL_CLIENT_NAME) {
   throw new Error("Missing required environment variables for POL360 service");
 }
 
-// Base64 credentials for Illion
 const base64Credentials = btoa(`${ILLION_USERNAME}:${ILLION_PASSWORD}`);
 
 export const getPOL360AuthToken = async () => {
