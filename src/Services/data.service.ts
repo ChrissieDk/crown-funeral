@@ -61,7 +61,7 @@ export const getMemberInformation = async (
         PolicyNumber: policyNumber,
       },
       headers: {
-        "x-authorization-token": POL_AUTH_TOKEN,
+        "X-Authorization-Token": POL_AUTH_TOKEN, // Changed capitalization
         Authorization: `Bearer ${token}`,
       },
     });
