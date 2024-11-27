@@ -1,11 +1,11 @@
 import { useState } from "react";
-import Sidebar from "./dashboard components/Sidebar";
-import Welcome from "./dashboard components/Welcome";
-import PersonalDetails from "./dashboard components/PersonalDetails";
-import ClaimsComponent from "./dashboard components/Claims";
-import ContactUsModal from "./dashboard components/ContactUs";
-import SymptomChecker from "./dashboard components/SymptomChecker";
-import WellnessApp from "./dashboard components/WelnessApp";
+import SideBar from "./dashboardComponents/Sidebar";
+import Welcome from "./dashboardComponents/Welcome";
+import PersonalDetails from "./dashboardComponents/PersonalDetails";
+import ClaimsComponent from "./dashboardComponents/Claims";
+import ContactUsModal from "./dashboardComponents/ContactUs";
+import SymptomChecker from "./dashboardComponents/SymptomChecker";
+import WellnessApp from "./dashboardComponents/WelnessApp";
 
 const Dashboard = () => {
   const [activePage, setActivePage] = useState("Home");
@@ -56,7 +56,7 @@ const Dashboard = () => {
 
   return (
     <div className="flex h-screen bg-gray-100">
-      <Sidebar
+      <SideBar
         activePage={activePage}
         setActivePage={setActivePage}
         services={services}

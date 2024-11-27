@@ -22,13 +22,13 @@ interface Service {
   active: boolean;
 }
 
-interface BurgerMenuProps {
+interface SideBarProps {
   activePage: string;
   setActivePage: (page: string) => void;
   services: Service[];
 }
 
-const BurgerMenu: React.FC<BurgerMenuProps> = ({
+const SideBar: React.FC<SideBarProps> = ({
   activePage,
   setActivePage,
   services,
@@ -135,4 +135,4 @@ const BurgerMenu: React.FC<BurgerMenuProps> = ({
   );
 };
 
-export default BurgerMenu;
+export default SideBar;
