@@ -219,7 +219,7 @@ const Navbar: React.FC<NavbarProps> = ({ isScrolled }) => {
                   Verify an Agent
                 </a>
               </li> */}
-              {/* <li>
+              <li>
                 <button
                   className="bg-yellow-400 text-black px-6 py-2 rounded hover:bg-yellow-300 transition-colors text-lg"
                   onClick={() => {
@@ -229,7 +229,7 @@ const Navbar: React.FC<NavbarProps> = ({ isScrolled }) => {
                 >
                   SIGN IN
                 </button>
-              </li> */}
+              </li>
             </ul>
           </nav>
         </div>
