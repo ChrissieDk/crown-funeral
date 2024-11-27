@@ -51,6 +51,7 @@ export const getMemberInformation = async (
 ) => {
   try {
     const token = await getPOL360AuthToken();
+    console.log("Generated Token:", token);
 
     const response = await axios({
       method: "get",

@@ -7,8 +7,9 @@
   ],
   "headers": [
     {
-      "source": "/pol360/api/(.*)",
+      "source": "/pol360/api/:path*",
       "headers": [
+        { "key": "Authorization", "value": "Bearer *" },
         { "key": "Access-Control-Allow-Origin", "value": "*" },
         {
           "key": "Access-Control-Allow-Methods",
