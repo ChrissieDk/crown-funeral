@@ -46,7 +46,6 @@ export const getMemberInformation = async (
   memberType: string = "MEM"
 ) => {
   try {
-    // Get fresh token
     const token = await getPOL360AuthToken();
     console.log("Generated Token:", token);
 
