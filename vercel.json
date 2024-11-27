@@ -1,30 +1,22 @@
 {
   "rewrites": [
     {
-      "source": "/api/pol360/:path*",
+      "source": "/pol360/api/:path*",
       "destination": "https://web09.pol360.co.za/api/:path*"
-    },
-    {
-      "source": "/(.*)",
-      "destination": "/index.html"
     }
   ],
   "headers": [
     {
-      "source": "/api/pol360/:path*",
+      "source": "/pol360/api/:path*",
       "headers": [
         { "key": "Access-Control-Allow-Origin", "value": "*" },
         {
           "key": "Access-Control-Allow-Methods",
-          "value": "GET,POST,PUT,DELETE,OPTIONS"
+          "value": "GET, POST, OPTIONS"
         },
         {
           "key": "Access-Control-Allow-Headers",
           "value": "Authorization, x-authorization-token, Content-Type, Accept"
-        },
-        {
-          "key": "Access-Control-Allow-Credentials",
-          "value": "true"
         }
       ]
     }
