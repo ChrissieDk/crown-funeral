@@ -1,17 +1,18 @@
-// data.service.ts
 import axios, { AxiosError } from "axios";
 import { IllionUserData } from "../Types";
 
+// API Constants
 const POL_BASE_URL = "/api/pol360/proxy";
 const ILLION_BASE_URL =
   "https://api.one81.com/v1/Notification/AutoSignUpIllion";
 
+// Environment variables
 const POL_AUTH_TOKEN = import.meta.env.VITE_POL_AUTH_TOKEN;
 const POL_CLIENT_NAME = import.meta.env.VITE_POL_CLIENT_NAME;
 const ILLION_USERNAME = import.meta.env.VITE_ILLION_USERNAME;
 const ILLION_PASSWORD = import.meta.env.VITE_ILLION_PASSWORD;
 
-// Validate environment variables
+// Validate required environment variables
 if (!POL_AUTH_TOKEN || !POL_CLIENT_NAME) {
   throw new Error("Missing required environment variables for POL360 service");
 }
@@ -20,34 +21,13 @@ if (!ILLION_USERNAME || !ILLION_PASSWORD) {
   throw new Error("Missing required environment variables for Illion service");
 }
 
-// Create base64 credentials for Illion
+// Base64 encode Illion credentials
 const base64Credentials = btoa(`${ILLION_USERNAME}:${ILLION_PASSWORD}`);
-
-// Header creation utility
-// const createHeaders = (token?: string) => {
-//   const headers: Record<string, string> = {
-//     accept: "application/json, text/plain, */*",
-//     "content-type": "application/json",
-//     "x-authorization-token": POL_AUTH_TOKEN,
-//     "x-requested-with": "XMLHttpRequest",
-//   };
-
-//   if (token) {
-//     headers["authorization"] = `Bearer ${token}`;
-//   }
-
-//   return headers;
-// };
 
 // Error handling utility
 const handleApiError = (error: unknown, context: string) => {
   if (axios.isAxiosError(error)) {
     const axiosError = error as AxiosError<any>;
-    console.error(`${context} Error:`, {
-      status: axiosError.response?.status,
-      data: axiosError.response?.data,
-      message: axiosError.message,
-    });
     throw new Error(
       axiosError.response?.data?.Message ||
         axiosError.message ||
@@ -72,8 +52,6 @@ export const getPOL360AuthToken = async () => {
       },
     });
 
-    console.log("Auth response:", response.data);
-
     if (response.data?.Result !== "Success" || !response.data?.JWTToken) {
       throw new Error(response.data?.Message || "Invalid token response");
     }
@@ -84,7 +62,7 @@ export const getPOL360AuthToken = async () => {
   }
 };
 
-// Member information retrieval with retry logic
+// Member information retrieval
 export const getMemberInformation = async (
   idNumber: string,
   policyNumber: string,
@@ -92,8 +70,6 @@ export const getMemberInformation = async (
 ) => {
   const fetchMemberInfo = async (token: string) => {
     try {
-      console.log("Making request with token:", token);
-
       const response = await axios({
         method: "get",
         url: POL_BASE_URL,
@@ -110,8 +86,6 @@ export const getMemberInformation = async (
         },
       });
 
-      console.log("Response received:", response.data);
-
       if (response.data?.Result !== "Success") {
         throw new Error(
           response.data?.Message || "Failed to get member information"
@@ -120,12 +94,6 @@ export const getMemberInformation = async (
 
       return response.data;
     } catch (error) {
-      console.error("Request failed:", {
-        error,
-        headers: (error as any)?.config?.headers,
-        response: (error as any)?.response?.data,
-      });
-
       if (axios.isAxiosError(error) && error.response?.status === 401) {
         throw new Error("TOKEN_EXPIRED");
       }
@@ -134,17 +102,13 @@ export const getMemberInformation = async (
   };
 
   try {
-    console.log("Getting initial auth token...");
     const token = await getPOL360AuthToken();
-    console.log("Initial token received:", token);
 
     try {
       return await fetchMemberInfo(token);
     } catch (error) {
       if (error instanceof Error && error.message === "TOKEN_EXPIRED") {
-        console.log("Token expired, getting new token...");
         const newToken = await getPOL360AuthToken();
-        console.log("New token received:", newToken);
         return await fetchMemberInfo(newToken);
       }
       throw error;
@@ -154,6 +118,7 @@ export const getMemberInformation = async (
   }
 };
 
+// Connection verification
 export const verifyPOL360Connection = async () => {
   try {
     const token = await getPOL360AuthToken();
