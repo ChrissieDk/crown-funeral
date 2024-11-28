@@ -31,18 +31,5 @@
         }
       ]
     }
-  ],
-  "routes": [
-    {
-      "src": "/pol360/(.*)",
-      "methods": ["OPTIONS"],
-      "headers": {
-        "Access-Control-Allow-Origin": "*",
-        "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
-        "Access-Control-Allow-Headers": "authorization, x-authorization-token, content-type, accept",
-        "Access-Control-Max-Age": "86400"
-      },
-      "status": 204
-    }
   ]
 }
