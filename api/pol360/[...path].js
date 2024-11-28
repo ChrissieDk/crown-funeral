@@ -1,70 +1,65 @@
 export default async function handler(req, res) {
-  // Handle OPTIONS requests for CORS
-  if (req.method === "OPTIONS") {
-    res.setHeader("Access-Control-Allow-Origin", "*");
-    res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
-    res.setHeader(
-      "Access-Control-Allow-Headers",
-      "authorization, x-authorization-token, content-type, accept"
-    );
-    return res.status(204).end();
-  }
-
   try {
     const targetUrl = `https://web09.pol360.co.za/api/360API.php${
       req.url.includes("?") ? req.url.substring(req.url.indexOf("?")) : ""
     }`;
 
+    // For GenerateAuthToken, only send x-authorization-token
     const isAuthRequest = req.url.includes("GenerateAuthToken");
 
-    // Ensure headers are lowercase and stripped of any whitespace
-    const authHeader = req.headers.authorization?.trim();
-    const xAuthToken = req.headers["x-authorization-token"]?.trim();
+    // Log all incoming headers for debugging
+    console.log("All incoming headers:", req.headers);
 
-    console.log("Incoming headers:", {
-      auth: authHeader,
-      xAuth: xAuthToken,
-    });
+    const headers = {};
 
-    const headers = {
-      accept: "application/json",
-      "content-type": "application/json",
-    };
+    // Add content type and accept headers
+    headers["Content-Type"] = "application/json";
+    headers["Accept"] = "application/json";
 
     if (isAuthRequest) {
-      headers["x-authorization-token"] = xAuthToken;
+      // For auth request, only send X-Authorization-Token with uppercase
+      headers["X-Authorization-Token"] =
+        req.headers["x-authorization-token"] ||
+        req.headers["X-Authorization-Token"];
     } else {
-      if (!authHeader) {
-        return res.status(400).json({
-          error: "Missing Authorization header",
-        });
+      // For member info request, send both headers with correct casing
+      const authHeader = req.headers.authorization || req.headers.Authorization;
+      const xAuthToken =
+        req.headers["x-authorization-token"] ||
+        req.headers["X-Authorization-Token"];
+
+      if (authHeader) {
+        headers["Authorization"] = authHeader.startsWith("Bearer ")
+          ? authHeader
+          : `Bearer ${authHeader}`;
       }
-      headers["authorization"] = authHeader;
-      headers["x-authorization-token"] = xAuthToken;
+
+      if (xAuthToken) {
+        headers["X-Authorization-Token"] = xAuthToken;
+      }
     }
 
-    console.log("Request:", {
-      url: targetUrl,
-      method: "GET",
-      headers: headers,
-    });
+    console.log("Request URL:", targetUrl);
+    console.log("Outgoing headers:", headers);
 
     const response = await fetch(targetUrl, {
       method: "GET",
       headers: headers,
     });
 
-    // Set CORS headers on response
-    res.setHeader("Access-Control-Allow-Origin", "*");
-
     const text = await response.text();
-    console.log("Response:", {
-      status: response.status,
-      body: text,
-    });
+    console.log("Response status:", response.status);
+    console.log("Response text:", text);
 
     try {
       const data = JSON.parse(text);
+      // Set CORS headers
+      res.setHeader("Access-Control-Allow-Origin", "*");
+      res.setHeader(
+        "Access-Control-Allow-Headers",
+        "Authorization, X-Authorization-Token"
+      );
+
       return res.status(response.status).json(data);
     } catch (e) {
       return res.status(500).json({
