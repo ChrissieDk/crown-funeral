@@ -23,22 +23,25 @@ export default async function handler(req, res) {
       return res.status(204).end();
     }
 
-    // Ensure authorization headers exist
-    if (!req.headers.authorization || !req.headers["x-authorization-token"]) {
-      console.error("Missing required headers:", req.headers);
-      return res
-        .status(400)
-        .json({ error: "Missing required authorization headers" });
+    // Prepare headers based on the request type
+    const headers = {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+    };
+
+    // Add X-Authorization-Token if present
+    if (req.headers["x-authorization-token"]) {
+      headers["X-Authorization-Token"] = req.headers["x-authorization-token"];
+    }
+
+    // Add Authorization header if present
+    if (req.headers.authorization) {
+      headers["Authorization"] = req.headers.authorization;
     }
 
     const response = await fetch(targetUrl, {
       method: req.method,
-      headers: {
-        Authorization: req.headers.authorization,
-        "X-Authorization-Token": req.headers["x-authorization-token"],
-        "Content-Type": "application/json",
-        Accept: "application/json",
-      },
+      headers: headers,
     });
 
     const data = await response.json();
