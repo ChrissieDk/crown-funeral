@@ -1,105 +1,164 @@
-import axios from "axios";
+// data.service.ts
+import axios, { AxiosError } from 'axios';
 import { IllionUserData } from "../Types";
 
-const POL_BASE_URL = "/pol360/api/360API.php";
-const ILLION_BASE_URL =
-  "https://api.one81.com/v1/Notification/AutoSignUpIllion";
+const POL_BASE_URL = '/pol360/api/360API.php';
+const ILLION_BASE_URL = 'https://api.one81.com/v1/Notification/AutoSignUpIllion';
 
 const POL_AUTH_TOKEN = import.meta.env.VITE_POL_AUTH_TOKEN;
 const POL_CLIENT_NAME = import.meta.env.VITE_POL_CLIENT_NAME;
 const ILLION_USERNAME = import.meta.env.VITE_ILLION_USERNAME;
 const ILLION_PASSWORD = import.meta.env.VITE_ILLION_PASSWORD;
 
+// Validate environment variables
 if (!POL_AUTH_TOKEN || !POL_CLIENT_NAME) {
-  throw new Error("Missing required environment variables for POL360 service");
+  throw new Error('Missing required environment variables for POL360 service');
 }
 
+if (!ILLION_USERNAME || !ILLION_PASSWORD) {
+  throw new Error('Missing required environment variables for Illion service');
+}
+
+// Create base64 credentials for Illion
 const base64Credentials = btoa(`${ILLION_USERNAME}:${ILLION_PASSWORD}`);
 
+// Header creation utility
+const createHeaders = (token?: string) => {
+  const headers: Record<string, string> = {
+    'accept': 'application/json, text/plain, */*',
+    'content-type': 'application/json',
+    'x-authorization-token': POL_AUTH_TOKEN
+  };
+
+  if (token) {
+    headers['authorization'] = `Bearer ${token}`;
+  }
+
+  return headers;
+};
+
+// Error handling utility
+const handleApiError = (error: unknown, context: string) => {
+  if (axios.isAxiosError(error)) {
+    const axiosError = error as AxiosError<any>;
+    console.error(`${context} Error:`, {
+      status: axiosError.response?.status,
+      data: axiosError.response?.data,
+      message: axiosError.message
+    });
+    throw new Error(
+      axiosError.response?.data?.Message || 
+      axiosError.message || 
+      `${context} failed`
+    );
+  }
+  throw error;
+};
+
+// Token generation
 export const getPOL360AuthToken = async () => {
   try {
     const response = await axios({
-      method: "get",
+      method: 'get',
       url: POL_BASE_URL,
       params: {
-        Function: "GenerateAuthToken",
+        Function: 'GenerateAuthToken',
         ClientName: POL_CLIENT_NAME,
       },
-      headers: {
-        "x-authorization-token": POL_AUTH_TOKEN,
-      },
+      headers: createHeaders()
     });
 
-    if (response.data.Result === "Success") {
-      return response.data.JWTToken;
+    if (response.data?.Result !== 'Success' || !response.data?.JWTToken) {
+      throw new Error(response.data?.Message || 'Invalid token response');
     }
-    throw new Error(response.data.Message || "Failed to get auth token");
-  } catch (error: any) {
-    console.error("Auth Error:", error.response?.data || error.message);
-    throw error;
+
+    return response.data.JWTToken;
+  } catch (error) {
+    handleApiError(error, 'Authentication');
   }
 };
 
+// Member information retrieval with retry logic
 export const getMemberInformation = async (
   idNumber: string,
   policyNumber: string,
-  memberType: string = "MEM"
+  memberType: string = 'MEM'
 ) => {
+  const fetchMemberInfo = async (token: string) => {
+    try {
+      const response = await axios({
+        method: 'get',
+        url: POL_BASE_URL,
+        params: {
+          Function: 'GetMemberInformation',
+          ClientName: POL_CLIENT_NAME,
+          IDNumber: idNumber,
+          MemberType: memberType,
+          PolicyNumber: policyNumber,
+        },
+        headers: createHeaders(token)
+      });
+
+      if (response.data?.Result !== 'Success') {
+        throw new Error(response.data?.Message || 'Failed to get member information');
+      }
+
+      return response.data;
+    } catch (error) {
+      if (axios.isAxiosError(error) && error.response?.status === 401) {
+        throw new Error('TOKEN_EXPIRED');
+      }
+      handleApiError(error, 'Member Information');
+    }
+  };
+
   try {
     const token = await getPOL360AuthToken();
-    console.log("Generated Token:", token);
-
-    // Separate request with token
-    const response = await axios({
-      method: "get",
-      url: POL_BASE_URL,
-      params: {
-        Function: "GetMemberInformation",
-        ClientName: POL_CLIENT_NAME,
-        IDNumber: idNumber,
-        MemberType: memberType,
-        PolicyNumber: policyNumber,
-      },
-      headers: {
-        "X-Authorization-Token": POL_AUTH_TOKEN, // Changed capitalization
-        Authorization: `Bearer ${token}`,
-      },
-    });
-
-    if (response.data.Result === "Success") {
-      return response.data;
+    try {
+      return await fetchMemberInfo(token);
+    } catch (error) {
+      if (error instanceof Error && error.message === 'TOKEN_EXPIRED') {
+        const newToken = await getPOL360AuthToken();
+        return await fetchMemberInfo(newToken);
+      }
+      throw error;
     }
-
-    throw new Error(
-      response.data.Message || "Failed to get member information"
-    );
-  } catch (error: any) {
-    console.error("Full error response:", error.response);
-    throw new Error(error.response?.data?.Message || error.message);
+  } catch (error) {
+    handleApiError(error, 'Member Information');
   }
 };
 
+// Illion integration
 export const getIllionAutoLogin = async (userData: IllionUserData) => {
   try {
     const response = await axios({
-      method: "post",
+      method: 'post',
       url: ILLION_BASE_URL,
       headers: {
-        Authorization: `Basic ${base64Credentials}`,
-        "Content-Type": "application/json",
+        'authorization': `Basic ${base64Credentials}`,
+        'content-type': 'application/json',
       },
       data: userData,
     });
 
-    if (response.data) {
-      return response.data;
+    if (!response.data) {
+      throw new Error('Invalid response from Illion service');
     }
-    throw new Error("Failed to get Illion auto-login URL");
-  } catch (error: any) {
-    console.error(
-      "Illion Auto-login Error:",
-      error.response?.data || error.message
-    );
-    throw error;
+
+    return response.data;
+  } catch (error) {
+    handleApiError(error, 'Illion Auto-login');
+  }
+};
+
+export const verifyPOL360Connection = async () => {
+  try {
+    const token = await getPOL360AuthToken();
+    return { status: 'connected', token };
+  } catch (error) {
+    return { 
+      status: 'error', 
+      message: error instanceof Error ? error.message : 'Connection verification failed' 
+    };
   }
 };

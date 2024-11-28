@@ -16,10 +16,12 @@ export default async function handler(req, res) {
 
     // Use exact casing from headers
     if (req.headers.authorization) {
+      console.log("Auth header length:", req.headers.authorization.length);
+      console.log(
+        "Auth header:",
+        Buffer.from(req.headers.authorization).toString("hex")
+      );
       headers["Authorization"] = req.headers.authorization;
-      console.log("Setting Authorization header:", headers["Authorization"]);
-    } else {
-      console.log("No authorization header found in request");
     }
 
     console.log("Final headers being sent:", headers);
