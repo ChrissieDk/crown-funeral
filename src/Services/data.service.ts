@@ -24,20 +24,20 @@ if (!ILLION_USERNAME || !ILLION_PASSWORD) {
 const base64Credentials = btoa(`${ILLION_USERNAME}:${ILLION_PASSWORD}`);
 
 // Header creation utility
-const createHeaders = (token?: string) => {
-  const headers: Record<string, string> = {
-    accept: "application/json, text/plain, */*",
-    "content-type": "application/json",
-    "x-authorization-token": POL_AUTH_TOKEN,
-    "x-requested-with": "XMLHttpRequest",
-  };
+// const createHeaders = (token?: string) => {
+//   const headers: Record<string, string> = {
+//     accept: "application/json, text/plain, */*",
+//     "content-type": "application/json",
+//     "x-authorization-token": POL_AUTH_TOKEN,
+//     "x-requested-with": "XMLHttpRequest",
+//   };
 
-  if (token) {
-    headers["authorization"] = `Bearer ${token}`;
-  }
+//   if (token) {
+//     headers["authorization"] = `Bearer ${token}`;
+//   }
 
-  return headers;
-};
+//   return headers;
+// };
 
 // Error handling utility
 const handleApiError = (error: unknown, context: string) => {
@@ -67,8 +67,12 @@ export const getPOL360AuthToken = async () => {
         Function: "GenerateAuthToken",
         ClientName: POL_CLIENT_NAME,
       },
-      headers: createHeaders(),
+      headers: {
+        "x-authorization-token": POL_AUTH_TOKEN,
+      },
     });
+
+    console.log("Auth response:", response.data);
 
     if (response.data?.Result !== "Success" || !response.data?.JWTToken) {
       throw new Error(response.data?.Message || "Invalid token response");

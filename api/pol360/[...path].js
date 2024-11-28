@@ -1,76 +1,45 @@
-import axios from "axios";
-
 export default async function handler(req, res) {
   try {
     const targetUrl = `https://web09.pol360.co.za/api/360API.php${
       req.url.includes("?") ? req.url.substring(req.url.indexOf("?")) : ""
     }`;
 
+    // For GenerateAuthToken, only send x-authorization-token
+    const isAuthRequest = req.url.includes("GenerateAuthToken");
+
+    const headers = isAuthRequest
+      ? {
+          "x-authorization-token": req.headers["x-authorization-token"],
+        }
+      : {
+          authorization: req.headers.authorization,
+          "x-authorization-token": req.headers["x-authorization-token"],
+        };
+
     console.log("Making request to:", targetUrl);
+    console.log("With headers:", headers);
 
-    const headers = {
-      "Content-Type": "application/json",
-      Accept: "application/json",
-    };
-
-    // Add auth headers if present
-    if (req.headers["x-authorization-token"]) {
-      headers["X-Authorization-Token"] = req.headers["x-authorization-token"];
-    }
-    if (req.headers.authorization) {
-      headers["Authorization"] = req.headers.authorization;
-    }
-
-    console.log("Request headers:", headers);
-
-    // Use axios instead of fetch
-    const response = await axios({
-      method: req.method,
-      url: targetUrl,
+    const response = await fetch(targetUrl, {
+      method: "GET",
       headers: headers,
-      validateStatus: function (status) {
-        return true; // Always resolve promise to handle all status codes
-      },
     });
 
-    console.log("Response status:", response.status);
-    console.log("Response headers:", response.headers);
-    console.log("Response data:", response.data);
+    const text = await response.text();
+    console.log("Raw response:", text);
 
-    // Set CORS headers
-    res.setHeader("Access-Control-Allow-Origin", "*");
-
-    // Forward the response status and data
-    return res.status(response.status).json(response.data);
-  } catch (error) {
-    console.error("Detailed error:", {
-      message: error.message,
-      stack: error.stack,
-      response: error.response?.data,
-      status: error.response?.status,
-      headers: error.response?.headers,
-    });
-
-    if (axios.isAxiosError(error)) {
-      if (error.response) {
-        // The request was made and the server responded with a status code
-        // that falls out of the range of 2xx
-        return res.status(error.response.status).json({
-          error: "API Error",
-          status: error.response.status,
-          data: error.response.data,
-        });
-      } else if (error.request) {
-        // The request was made but no response was received
-        return res.status(503).json({
-          error: "No Response",
-          message: "The API server did not respond",
-        });
-      }
+    try {
+      const data = JSON.parse(text);
+      return res.status(response.status).json(data);
+    } catch (e) {
+      return res.status(500).json({
+        error: "Parse Error",
+        raw: text,
+      });
     }
-
+  } catch (error) {
+    console.error("Request failed:", error);
     return res.status(500).json({
-      error: "Internal Server Error",
+      error: "Request Failed",
       message: error.message,
     });
   }
