@@ -1,7 +1,7 @@
 {
   "headers": [
     {
-      "source": "/api/(.*)",
+      "source": "/api/pol360/(.*)",
       "headers": [
         {
           "key": "Access-Control-Allow-Origin",
@@ -13,11 +13,11 @@
         },
         {
           "key": "Access-Control-Allow-Headers",
-          "value": "Authorization, X-Authorization-Token, Content-Type, Accept"
+          "value": "authorization, x-authorization-token, content-type, accept"
         },
         {
           "key": "Access-Control-Expose-Headers",
-          "value": "Authorization, X-Authorization-Token"
+          "value": "authorization, x-authorization-token"
         }
       ]
     }
