@@ -1,59 +1,44 @@
 export default async function handler(req, res) {
   try {
+    // Construct target URL correctly
     const targetUrl = `https://web09.pol360.co.za/api${req.url.replace(
       "/pol360/api",
       ""
     )}`;
 
-    // Log incoming request
-    console.log("Incoming request:", {
-      url: req.url,
-      method: req.method,
-      headers: req.headers,
-      query: req.query,
+    console.log("Target URL:", targetUrl);
+    console.log("Original headers:", req.headers);
+
+    // Get the raw authorization header
+    const authHeader = req.headers.authorization || req.headers.Authorization;
+    const xAuthToken =
+      req.headers["x-authorization-token"] ||
+      req.headers["X-Authorization-Token"] ||
+      process.env.VITE_POL_AUTH_TOKEN;
+
+    console.log("Auth header:", authHeader);
+    console.log("X-Auth-Token:", xAuthToken);
+
+    // Construct headers
+    const headers = new Headers({
+      Accept: "application/json",
+      "Content-Type": "application/json",
     });
 
-    // Handle preflight
-    if (req.method === "OPTIONS") {
-      res.setHeader("Access-Control-Allow-Origin", "*");
-      res.setHeader(
-        "Access-Control-Allow-Methods",
-        "GET, POST, PUT, DELETE, OPTIONS"
-      );
-      res.setHeader(
-        "Access-Control-Allow-Headers",
-        "Authorization, X-Authorization-Token, Content-Type, Accept"
-      );
-      res.setHeader("Access-Control-Max-Age", "86400");
-      return res.status(204).end();
+    // Set both variations of auth headers
+    if (authHeader) {
+      headers.set("Authorization", authHeader);
+      headers.set("authorization", authHeader);
     }
 
-    // Forward all relevant headers from the original request
-    const headers = {
-      accept: "application/json, text/plain, */*",
-      "content-type": "application/json",
-      "x-authorization-token": process.env.VITE_POL_AUTH_TOKEN,
-    };
-
-    // Ensure both header variations are forwarded
-    if (req.headers.authorization) {
-      headers["Authorization"] = req.headers.authorization;
-      headers["authorization"] = req.headers.authorization;
+    if (xAuthToken) {
+      headers.set("X-Authorization-Token", xAuthToken);
+      headers.set("x-authorization-token", xAuthToken);
     }
 
-    if (req.headers["x-authorization-token"]) {
-      headers["X-Authorization-Token"] = req.headers["x-authorization-token"];
-      headers["x-authorization-token"] = req.headers["x-authorization-token"];
-    }
+    console.log("Final headers:", Object.fromEntries(headers.entries()));
 
-    // Log outgoing request
-    console.log("Outgoing request:", {
-      url: targetUrl,
-      method: req.method,
-      headers: headers,
-    });
-
-    // Make the request to the target API
+    // Make the request
     const response = await fetch(targetUrl, {
       method: req.method,
       headers: headers,
@@ -61,41 +46,29 @@ export default async function handler(req, res) {
       redirect: "follow",
     });
 
-    // Get response data
     const data = await response.json();
 
-    // Log response for debugging
     console.log("API Response:", {
       status: response.status,
-      headers: Object.fromEntries(response.headers),
       data: data,
     });
 
-    // Forward original response headers
-    response.headers.forEach((value, key) => {
-      res.setHeader(key, value);
-    });
-
-    // Add CORS headers to response
+    // Set CORS headers
     res.setHeader("Access-Control-Allow-Origin", "*");
+    res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
     res.setHeader(
-      "Access-Control-Expose-Headers",
-      "Authorization, X-Authorization-Token"
+      "Access-Control-Allow-Headers",
+      "Authorization, X-Authorization-Token, Content-Type"
     );
 
+    // Return the response
     return res.status(response.status).json(data);
   } catch (error) {
-    console.error("Proxy Error:", {
-      message: error.message,
-      stack: error.stack,
-    });
-
+    console.error("Proxy Error:", error);
     return res.status(500).json({
       error: "Internal Server Error",
-      message:
-        process.env.NODE_ENV === "development"
-          ? error.message
-          : "An error occurred",
+      details: error.message,
+      stack: process.env.NODE_ENV === "development" ? error.stack : undefined,
     });
   }
 }
