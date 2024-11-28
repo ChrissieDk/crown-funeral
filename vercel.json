@@ -1,13 +1,7 @@
 {
-  "rewrites": [
-    {
-      "source": "/pol360/:path*",
-      "destination": "https://web09.pol360.co.za/:path*"
-    }
-  ],
   "headers": [
     {
-      "source": "/pol360/:path*",
+      "source": "/api/(.*)",
       "headers": [
         {
           "key": "Access-Control-Allow-Origin",

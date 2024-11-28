@@ -2,7 +2,7 @@
 import axios, { AxiosError } from "axios";
 import { IllionUserData } from "../Types";
 
-const POL_BASE_URL = "/pol360/api/360API.php";
+const POL_BASE_URL = "/api/pol360/proxy";
 const ILLION_BASE_URL =
   "https://api.one81.com/v1/Notification/AutoSignUpIllion";
 

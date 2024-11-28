@@ -1,38 +1,57 @@
 export default async function handler(req, res) {
   try {
-    const targetUrl = `https://web09.pol360.co.za/api${req.url.replace(
-      "/pol360/api",
-      ""
-    )}`;
+    const targetUrl = `https://web09.pol360.co.za/api/360API.php${
+      req.url.includes("?") ? req.url.substring(req.url.indexOf("?")) : ""
+    }`;
 
-    // Get headers from original request
-    const authHeader = req.headers.authorization;
-    const xAuthToken = req.headers["x-authorization-token"];
+    // Log incoming request details
+    console.log({
+      targetUrl,
+      originalUrl: req.url,
+      method: req.method,
+      headers: req.headers,
+      query: req.query,
+    });
 
-    // Create headers object
-    const headers = {
-      Accept: "application/json",
-      "Content-Type": "application/json",
-    };
-
-    // Add auth headers if they exist
-    if (authHeader) {
-      headers["Authorization"] = authHeader;
+    // Handle OPTIONS request for CORS
+    if (req.method === "OPTIONS") {
+      res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
+      res.setHeader(
+        "Access-Control-Allow-Headers",
+        "Authorization, X-Authorization-Token, Content-Type, Accept"
+      );
+      return res.status(204).end();
     }
 
-    if (xAuthToken) {
-      headers["X-Authorization-Token"] = xAuthToken;
+    // Ensure authorization headers exist
+    if (!req.headers.authorization || !req.headers["x-authorization-token"]) {
+      console.error("Missing required headers:", req.headers);
+      return res
+        .status(400)
+        .json({ error: "Missing required authorization headers" });
     }
 
-    // Make the request
     const response = await fetch(targetUrl, {
       method: req.method,
-      headers: headers,
+      headers: {
+        Authorization: req.headers.authorization,
+        "X-Authorization-Token": req.headers["x-authorization-token"],
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
     });
 
     const data = await response.json();
 
-    // Return the response
+    // Log the response for debugging
+    console.log("API Response:", {
+      status: response.status,
+      data: data,
+    });
+
+    // Set CORS headers
+    res.setHeader("Access-Control-Allow-Origin", "*");
+
     return res.status(response.status).json(data);
   } catch (error) {
     console.error("Proxy Error:", error);
