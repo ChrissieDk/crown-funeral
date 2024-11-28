@@ -7,7 +7,7 @@
   ],
   "headers": [
     {
-      "source": "/pol360/(.*)",
+      "source": "/pol360/:path*",
       "headers": [
         {
           "key": "Access-Control-Allow-Origin",
@@ -15,19 +15,15 @@
         },
         {
           "key": "Access-Control-Allow-Methods",
-          "value": "GET, POST, PUT, DELETE, OPTIONS"
+          "value": "GET, POST, OPTIONS"
         },
         {
           "key": "Access-Control-Allow-Headers",
-          "value": "Authorization, X-Authorization-Token, Content-Type, Accept, X-Requested-With"
+          "value": "Authorization, X-Authorization-Token, Content-Type, Accept"
         },
         {
           "key": "Access-Control-Expose-Headers",
           "value": "Authorization, X-Authorization-Token"
-        },
-        {
-          "key": "Access-Control-Max-Age",
-          "value": "86400"
         }
       ]
     }
