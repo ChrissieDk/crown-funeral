@@ -105,13 +105,8 @@ export const getMemberInformation = async (
           PolicyNumber: policyNumber,
         },
         headers: {
-          Accept: "application/json, text/plain, */*",
-          "Content-Type": "application/json",
           "x-authorization-token": POL_AUTH_TOKEN,
-          "X-Authorization-Token": POL_AUTH_TOKEN, // Include both cases
           authorization: `Bearer ${token}`,
-          Authorization: `Bearer ${token}`, // Include both cases
-          "x-requested-with": "XMLHttpRequest",
         },
       });
 
