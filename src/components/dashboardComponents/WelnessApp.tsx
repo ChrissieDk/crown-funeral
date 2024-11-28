@@ -43,6 +43,12 @@ const WellnessApp = () => {
     setError("");
   };
 
+  const handleOpenInNewTab = () => {
+    if (illionUrl) {
+      window.open(illionUrl, "_blank", "noopener,noreferrer");
+    }
+  };
+
   if (loading) {
     return <div>Loading...</div>;
   }
@@ -50,19 +56,40 @@ const WellnessApp = () => {
   if (showIframe && illionUrl) {
     return (
       <div className="w-full h-screen flex flex-col">
-        <div className="bg-[#C9A86C] p-4">
+        <div className="bg-[#C9A86C] p-4 flex justify-between items-center">
           <button
             onClick={handleBackClick}
             className="text-white hover:text-gray-200 focus:outline-none focus:ring-2 focus:ring-white"
           >
             <FaArrowLeft size={24} />
           </button>
+          <button
+            onClick={handleOpenInNewTab}
+            className="flex items-center gap-2 text-white hover:text-gray-200 focus:outline-none focus:ring-2 focus:ring-white px-4 py-2 rounded"
+          >
+            <span>Open in new tab</span>
+            <FaArrowLeft size={16} />
+          </button>
         </div>
-        <iframe
-          src={illionUrl}
-          title="Wellness App"
-          className="flex-grow w-full border-none"
-        />
+        <div className="flex-grow w-full relative">
+          <iframe
+            src={illionUrl}
+            title="Wellness App"
+            className="w-full h-full border-none"
+            sandbox="allow-same-origin allow-scripts allow-popups allow-forms"
+            onError={(e) => {
+              setError(
+                "Failed to load the Wellness App. Please try opening in a new tab."
+              );
+              console.error("iframe error:", e);
+            }}
+          />
+          {error && (
+            <div className="absolute top-0 left-0 right-0 bg-red-100 p-4 text-red-700">
+              {error}
+            </div>
+          )}
+        </div>
       </div>
     );
   }
