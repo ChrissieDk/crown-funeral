@@ -81,7 +81,6 @@ export const getPOL360AuthToken = async () => {
 };
 
 // Member information retrieval with retry logic
-// Member information retrieval with retry logic
 export const getMemberInformation = async (
   idNumber: string,
   policyNumber: string,
@@ -89,7 +88,7 @@ export const getMemberInformation = async (
 ) => {
   const fetchMemberInfo = async (token: string) => {
     try {
-      console.log("Making request with token:", token); // Debug log
+      console.log("Making request with token:", token);
 
       const response = await axios({
         method: "get",
@@ -102,14 +101,17 @@ export const getMemberInformation = async (
           PolicyNumber: policyNumber,
         },
         headers: {
-          ...createHeaders(token),
-          authorization: `Bearer ${token}`,
+          Accept: "application/json, text/plain, */*",
+          "Content-Type": "application/json",
           "x-authorization-token": POL_AUTH_TOKEN,
+          "X-Authorization-Token": POL_AUTH_TOKEN, // Include both cases
+          authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${token}`, // Include both cases
           "x-requested-with": "XMLHttpRequest",
         },
       });
 
-      console.log("Response received:", response.data); // Debug log
+      console.log("Response received:", response.data);
 
       if (response.data?.Result !== "Success") {
         throw new Error(
@@ -119,7 +121,12 @@ export const getMemberInformation = async (
 
       return response.data;
     } catch (error) {
-      console.error("Request failed:", error); // Debug log
+      console.error("Request failed:", {
+        error,
+        headers: (error as any)?.config?.headers,
+        response: (error as any)?.response?.data,
+      });
+
       if (axios.isAxiosError(error) && error.response?.status === 401) {
         throw new Error("TOKEN_EXPIRED");
       }
@@ -128,17 +135,17 @@ export const getMemberInformation = async (
   };
 
   try {
-    console.log("Getting initial auth token..."); // Debug log
+    console.log("Getting initial auth token...");
     const token = await getPOL360AuthToken();
-    console.log("Initial token received:", token); // Debug log
+    console.log("Initial token received:", token);
 
     try {
       return await fetchMemberInfo(token);
     } catch (error) {
       if (error instanceof Error && error.message === "TOKEN_EXPIRED") {
-        console.log("Token expired, getting new token..."); // Debug log
+        console.log("Token expired, getting new token...");
         const newToken = await getPOL360AuthToken();
-        console.log("New token received:", newToken); // Debug log
+        console.log("New token received:", newToken);
         return await fetchMemberInfo(newToken);
       }
       throw error;

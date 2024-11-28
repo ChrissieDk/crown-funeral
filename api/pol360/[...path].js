@@ -5,16 +5,17 @@ export default async function handler(req, res) {
       ""
     )}`;
 
-    // Log incoming request for debugging
-    console.log({
-      targetUrl,
+    // Log incoming request
+    console.log("Incoming request:", {
+      url: req.url,
       method: req.method,
       headers: req.headers,
       query: req.query,
     });
 
-    // Handle preflight requests
+    // Handle preflight
     if (req.method === "OPTIONS") {
+      res.setHeader("Access-Control-Allow-Origin", "*");
       res.setHeader(
         "Access-Control-Allow-Methods",
         "GET, POST, PUT, DELETE, OPTIONS"
@@ -27,16 +28,22 @@ export default async function handler(req, res) {
       return res.status(204).end();
     }
 
-    // Prepare headers with consistent casing
+    // Forward all relevant headers from the original request
     const headers = {
       accept: "application/json, text/plain, */*",
       "content-type": "application/json",
       "x-authorization-token": process.env.VITE_POL_AUTH_TOKEN,
     };
 
-    // Forward authorization header if present
+    // Ensure both header variations are forwarded
     if (req.headers.authorization) {
+      headers["Authorization"] = req.headers.authorization;
       headers["authorization"] = req.headers.authorization;
+    }
+
+    if (req.headers["x-authorization-token"]) {
+      headers["X-Authorization-Token"] = req.headers["x-authorization-token"];
+      headers["x-authorization-token"] = req.headers["x-authorization-token"];
     }
 
     // Log outgoing request
@@ -46,14 +53,16 @@ export default async function handler(req, res) {
       headers: headers,
     });
 
+    // Make the request to the target API
     const response = await fetch(targetUrl, {
       method: req.method,
       headers: headers,
       body: req.method !== "GET" ? JSON.stringify(req.body) : undefined,
+      redirect: "follow",
     });
 
     // Get response data
-    const data = await response.json().catch(() => null);
+    const data = await response.json();
 
     // Log response for debugging
     console.log("API Response:", {
@@ -62,33 +71,31 @@ export default async function handler(req, res) {
       data: data,
     });
 
-    // Forward response headers
+    // Forward original response headers
     response.headers.forEach((value, key) => {
       res.setHeader(key, value);
     });
 
-    // Set CORS headers for the response
+    // Add CORS headers to response
     res.setHeader("Access-Control-Allow-Origin", "*");
     res.setHeader(
       "Access-Control-Expose-Headers",
       "Authorization, X-Authorization-Token"
     );
 
-    // Send response
     return res.status(response.status).json(data);
   } catch (error) {
-    console.error("Proxy Error:", error);
-
-    // Send detailed error in development, generic in production
-    const errorMessage =
-      process.env.NODE_ENV === "development"
-        ? error.message
-        : "Internal Server Error";
+    console.error("Proxy Error:", {
+      message: error.message,
+      stack: error.stack,
+    });
 
     return res.status(500).json({
       error: "Internal Server Error",
-      message: errorMessage,
-      ...(process.env.NODE_ENV === "development" && { stack: error.stack }),
+      message:
+        process.env.NODE_ENV === "development"
+          ? error.message
+          : "An error occurred",
     });
   }
 }
