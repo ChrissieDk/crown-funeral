@@ -29,6 +29,7 @@ const createHeaders = (token?: string) => {
     accept: "application/json, text/plain, */*",
     "content-type": "application/json",
     "x-authorization-token": POL_AUTH_TOKEN,
+    "x-requested-with": "XMLHttpRequest",
   };
 
   if (token) {
@@ -80,6 +81,7 @@ export const getPOL360AuthToken = async () => {
 };
 
 // Member information retrieval with retry logic
+// Member information retrieval with retry logic
 export const getMemberInformation = async (
   idNumber: string,
   policyNumber: string,
@@ -87,6 +89,8 @@ export const getMemberInformation = async (
 ) => {
   const fetchMemberInfo = async (token: string) => {
     try {
+      console.log("Making request with token:", token); // Debug log
+
       const response = await axios({
         method: "get",
         url: POL_BASE_URL,
@@ -97,8 +101,15 @@ export const getMemberInformation = async (
           MemberType: memberType,
           PolicyNumber: policyNumber,
         },
-        headers: createHeaders(token),
+        headers: {
+          ...createHeaders(token),
+          authorization: `Bearer ${token}`,
+          "x-authorization-token": POL_AUTH_TOKEN,
+          "x-requested-with": "XMLHttpRequest",
+        },
       });
+
+      console.log("Response received:", response.data); // Debug log
 
       if (response.data?.Result !== "Success") {
         throw new Error(
@@ -108,6 +119,7 @@ export const getMemberInformation = async (
 
       return response.data;
     } catch (error) {
+      console.error("Request failed:", error); // Debug log
       if (axios.isAxiosError(error) && error.response?.status === 401) {
         throw new Error("TOKEN_EXPIRED");
       }
@@ -116,12 +128,17 @@ export const getMemberInformation = async (
   };
 
   try {
+    console.log("Getting initial auth token..."); // Debug log
     const token = await getPOL360AuthToken();
+    console.log("Initial token received:", token); // Debug log
+
     try {
       return await fetchMemberInfo(token);
     } catch (error) {
       if (error instanceof Error && error.message === "TOKEN_EXPIRED") {
+        console.log("Token expired, getting new token..."); // Debug log
         const newToken = await getPOL360AuthToken();
+        console.log("New token received:", newToken); // Debug log
         return await fetchMemberInfo(newToken);
       }
       throw error;

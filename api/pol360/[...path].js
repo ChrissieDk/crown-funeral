@@ -1,45 +1,94 @@
 export default async function handler(req, res) {
-  const targetUrl = `https://web09.pol360.co.za/api${req.url.replace(
-    "/pol360/api",
-    ""
-  )}`;
-
-  // Log incoming request headers
-  console.log("Incoming request headers:", req.headers);
-
   try {
-    const headers = {
-      Accept: "application/json, text/plain, */*",
-      "Content-Type": "application/json",
-      "X-Authorization-Token": process.env.VITE_POL_AUTH_TOKEN,
-    };
+    const targetUrl = `https://web09.pol360.co.za/api${req.url.replace(
+      "/pol360/api",
+      ""
+    )}`;
 
-    // Use exact casing from headers
-    if (req.headers.authorization) {
-      console.log("Auth header length:", req.headers.authorization.length);
-      console.log(
-        "Auth header:",
-        Buffer.from(req.headers.authorization).toString("hex")
+    // Log incoming request for debugging
+    console.log({
+      targetUrl,
+      method: req.method,
+      headers: req.headers,
+      query: req.query,
+    });
+
+    // Handle preflight requests
+    if (req.method === "OPTIONS") {
+      res.setHeader(
+        "Access-Control-Allow-Methods",
+        "GET, POST, PUT, DELETE, OPTIONS"
       );
-      headers["Authorization"] = req.headers.authorization;
+      res.setHeader(
+        "Access-Control-Allow-Headers",
+        "Authorization, X-Authorization-Token, Content-Type, Accept"
+      );
+      res.setHeader("Access-Control-Max-Age", "86400");
+      return res.status(204).end();
     }
 
-    console.log("Final headers being sent:", headers);
+    // Prepare headers with consistent casing
+    const headers = {
+      accept: "application/json, text/plain, */*",
+      "content-type": "application/json",
+      "x-authorization-token": process.env.VITE_POL_AUTH_TOKEN,
+    };
+
+    // Forward authorization header if present
+    if (req.headers.authorization) {
+      headers["authorization"] = req.headers.authorization;
+    }
+
+    // Log outgoing request
+    console.log("Outgoing request:", {
+      url: targetUrl,
+      method: req.method,
+      headers: headers,
+    });
 
     const response = await fetch(targetUrl, {
       method: req.method,
       headers: headers,
-      ...(req.method !== "GET" && { body: JSON.stringify(req.body) }),
+      body: req.method !== "GET" ? JSON.stringify(req.body) : undefined,
     });
 
-    const data = await response.json();
-    console.log("Response from API:", data);
+    // Get response data
+    const data = await response.json().catch(() => null);
 
-    res.status(response.status).json(data);
+    // Log response for debugging
+    console.log("API Response:", {
+      status: response.status,
+      headers: Object.fromEntries(response.headers),
+      data: data,
+    });
+
+    // Forward response headers
+    response.headers.forEach((value, key) => {
+      res.setHeader(key, value);
+    });
+
+    // Set CORS headers for the response
+    res.setHeader("Access-Control-Allow-Origin", "*");
+    res.setHeader(
+      "Access-Control-Expose-Headers",
+      "Authorization, X-Authorization-Token"
+    );
+
+    // Send response
+    return res.status(response.status).json(data);
   } catch (error) {
-    console.error("Error in proxy:", error);
-    res
-      .status(500)
-      .json({ error: "Internal Server Error", details: error.message });
+    console.error("Proxy Error:", error);
+
+    // Send detailed error in development, generic in production
+    const errorMessage =
+      process.env.NODE_ENV === "development"
+        ? error.message
+        : "Internal Server Error";
+
+    return res.status(500).json({
+      error: "Internal Server Error",
+      message: errorMessage,
+      ...(process.env.NODE_ENV === "development" && { stack: error.stack }),
+    });
   }
 }
