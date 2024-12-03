@@ -277,7 +277,7 @@ const PricingComponent = () => {
                   >
                     219
                   </td>
-                  <td className="p-2 text-center border border-gray-600">
+                  {/* <td className="p-2 text-center border border-gray-600">
                     30 000
                   </td>
                   <td
@@ -285,7 +285,7 @@ const PricingComponent = () => {
                     className="p-2 text-center border border-gray-600"
                   >
                     240
-                  </td>
+                  </td> */}
                 </tr>
                 <tr>
                   <td className="p-2 border border-gray-600">Spouse</td>
@@ -301,9 +301,9 @@ const PricingComponent = () => {
                   <td className="p-2 text-center border border-gray-600">
                     18 000
                   </td>
-                  <td className="p-2 text-center border border-gray-600">
+                  {/* <td className="p-2 text-center border border-gray-600">
                     20 000
-                  </td>
+                  </td> */}
                 </tr>
                 <tr>
                   <td className="p-2 border border-gray-600">
@@ -321,9 +321,9 @@ const PricingComponent = () => {
                   <td className="p-2 text-center border border-gray-600">
                     18 000
                   </td>
-                  <td className="p-2 text-center border border-gray-600">
+                  {/* <td className="p-2 text-center border border-gray-600">
                     20 000
-                  </td>
+                  </td> */}
                 </tr>
                 <tr>
                   <td className="p-2 border border-gray-600">Child: 0-13</td>
@@ -339,9 +339,9 @@ const PricingComponent = () => {
                   <td className="p-2 text-center border border-gray-600">
                     12 500
                   </td>
-                  <td className="p-2 text-center border border-gray-600">
+                  {/* <td className="p-2 text-center border border-gray-600">
                     15 000
-                  </td>
+                  </td> */}
                 </tr>
               </tbody>
             </table>

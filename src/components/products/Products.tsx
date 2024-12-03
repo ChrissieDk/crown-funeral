@@ -89,8 +89,10 @@ const Products: React.FC = () => {
               agent:
             </p>
             <div className="space-y-4 text-left w-full md:w-auto">
-              <p className="font-semibold">Funeral Call Centre: 087 703 5856</p>
-              <p className="font-semibold">WhatsApp Line: 081 398 6351</p>
+              <p className="font-semibold">
+                Funeral Call Centre: 087 372 1094{" "}
+              </p>
+              {/* <p className="font-semibold">WhatsApp Line: 081 398 6351</p> */}
               <p>
                 Member Queries:{" "}
                 <a

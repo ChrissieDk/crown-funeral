@@ -13,17 +13,20 @@ export default defineConfig({
   },
   server: {
     proxy: {
-      "/pol360": {
+      "/api/360API.php": {
         target: "https://web09.pol360.co.za",
         changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/pol360/, ""),
         secure: false,
         configure: (proxy, _options) => {
           proxy.on("proxyReq", (proxyReq, req, _res) => {
-            // Ensure headers are properly set
-            const authHeader = req.headers["authorization"];
-            if (authHeader) {
-              proxyReq.setHeader("Authorization", authHeader);
+            if (req.headers.authorization) {
+              proxyReq.setHeader("Authorization", req.headers.authorization);
+            }
+            if (req.headers["x-authorization-token"]) {
+              proxyReq.setHeader(
+                "x-authorization-token",
+                req.headers["x-authorization-token"]
+              );
             }
           });
         },
