@@ -1,55 +1,18 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { FaArrowLeft } from "react-icons/fa";
 
-// Extend Window interface to include Landbot
-declare global {
-  interface Window {
-    Landbot: {
-      Container: new (config: { container: string; configUrl: string }) => void;
-    };
-  }
-}
-
 const SymptomChecker = () => {
-  const [showBot, setShowBot] = useState(false);
-  const [landbotLoaded, setLandbotLoaded] = useState(false);
-
-  useEffect(() => {
-    if (showBot && !landbotLoaded) {
-      const script = document.createElement("script");
-      script.src = "https://cdn.landbot.io/landbot-3/landbot-3.0.0.js";
-      script.async = true;
-      script.setAttribute("SameSite", "None; Secure");
-
-      script.onload = () => {
-        setLandbotLoaded(true);
-        if (window.Landbot) {
-          new window.Landbot.Container({
-            container: "#landbot-container",
-            configUrl:
-              "https://storage.googleapis.com/landbot.online/v3/H-2140524-8HL0HEXNHP9DEXPZ/index.json",
-          });
-        }
-      };
-
-      document.body.appendChild(script);
-
-      return () => {
-        document.body.removeChild(script);
-        setLandbotLoaded(false);
-      };
-    }
-  }, [showBot, landbotLoaded]);
+  const [showIframe, setShowIframe] = useState(false);
 
   const handleButtonClick = () => {
-    setShowBot(true);
+    setShowIframe(true);
   };
 
   const handleBackClick = () => {
-    setShowBot(false);
+    setShowIframe(false);
   };
 
-  if (showBot) {
+  if (showIframe) {
     return (
       <div className="w-full h-screen flex flex-col">
         <div className="bg-[#C9A86C] p-4">
@@ -60,7 +23,11 @@ const SymptomChecker = () => {
             <FaArrowLeft size={24} />
           </button>
         </div>
-        <div id="landbot-container" className="flex-grow w-full" />
+        <iframe
+          src="https://landbot.online/v3/H-2140524-8HL0HEXNHP9DEXPZ/index.html"
+          title="Symptom Checker"
+          className="flex-grow w-full border-none"
+        />
       </div>
     );
   }
