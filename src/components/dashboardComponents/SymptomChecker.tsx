@@ -27,6 +27,9 @@ const SymptomChecker = () => {
           src="https://landbot.online/v3/H-2140524-8HL0HEXNHP9DEXPZ/index.html"
           title="Symptom Checker"
           className="flex-grow w-full border-none"
+          allow="camera *; microphone *; geolocation *; clipboard-write; fullscreen"
+          allowFullScreen
+          sandbox="allow-same-origin allow-scripts allow-popups allow-forms"
         />
       </div>
     );
