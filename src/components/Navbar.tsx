@@ -23,7 +23,6 @@ const Navbar: React.FC<NavbarProps> = ({ isScrolled }) => {
     e.preventDefault();
     if (location.pathname !== "/") {
       navigate("/");
-      // We need to wait for the navigation to complete before scrolling
       setTimeout(() => {
         const elem = document.getElementById(target);
         elem?.scrollIntoView({ behavior: "smooth" });
@@ -96,15 +95,6 @@ const Navbar: React.FC<NavbarProps> = ({ isScrolled }) => {
                   FAQs
                 </a>
               </li>
-              {/* <li>
-                <a
-                  href="#about-us"
-                  className="text-white hover:text-[#B8A061]"
-                  onClick={(e) => handleNavigation(e, "about-us")}
-                >
-                  How To Claim
-                </a>
-              </li> */}
               <li>
                 <a
                   href="#why-choose-us"
@@ -119,6 +109,12 @@ const Navbar: React.FC<NavbarProps> = ({ isScrolled }) => {
         </div>
 
         <div className="flex items-center">
+          <Link
+            to="/sign-in"
+            className="hidden md:block bg-[#CFB46D] text-black px-6 py-2 rounded hover:bg-[#B8A061] transition-colors mr-4"
+          >
+            SIGN IN
+          </Link>
           <div className="md:hidden">
             <button
               onClick={toggleMenu}
@@ -192,15 +188,6 @@ const Navbar: React.FC<NavbarProps> = ({ isScrolled }) => {
                   FAQs
                 </a>
               </li>
-              {/* <li>
-                <a
-                  href="#about-us"
-                  className="text-white text-lg"
-                  onClick={(e) => handleNavigation(e, "about-us")}
-                >
-                  How To Claim
-                </a>
-              </li> */}
               <li>
                 <a
                   href="#why-choose-us"
@@ -210,15 +197,6 @@ const Navbar: React.FC<NavbarProps> = ({ isScrolled }) => {
                   Why Choose us
                 </a>
               </li>
-              {/* <li>
-                <a
-                  href="#verify"
-                  className="text-white text-lg"
-                  onClick={(e) => handleNavigation(e, "verify")}
-                >
-                  Verify an Agent
-                </a>
-              </li> */}
               <li>
                 <button
                   className="bg-yellow-400 text-black px-6 py-2 rounded hover:bg-yellow-300 transition-colors text-lg"

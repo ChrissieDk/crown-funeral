@@ -1,16 +1,30 @@
 import { IoCheckmarkCircle } from "react-icons/io5";
 import { IoIosCloseCircle } from "react-icons/io";
 import { useMemberInfo } from "../../Hooks/useMemberInfo";
+import { useEffect, useState } from "react";
+
+interface Service {
+  name: string;
+  active: boolean;
+}
 
 const Welcome = () => {
   const { memberInfo, loading, error } = useMemberInfo();
+  const [services, setServices] = useState<Service[]>([]);
 
-  const services = [
-    { name: "Wellness App", active: true },
-    { name: "Symptom Checker", active: true },
-    { name: "FeelBetterFast Voucher", active: false },
-    { name: "Registration", active: false },
-  ];
+  useEffect(() => {
+    const memberInfoStr = sessionStorage.getItem("memberInfo");
+    if (memberInfoStr) {
+      const { hasServiceAccess } = JSON.parse(memberInfoStr);
+
+      setServices([
+        { name: "Wellness App", active: hasServiceAccess },
+        { name: "Symptom Checker", active: hasServiceAccess },
+        { name: "FeelBetterFast Voucher", active: hasServiceAccess },
+        { name: "Repatriation", active: hasServiceAccess },
+      ]);
+    }
+  }, []);
 
   if (loading) {
     return (
@@ -77,13 +91,20 @@ const Welcome = () => {
           </p>
           <div className="flex flex-wrap gap-x-8 gap-y-2 mt-8">
             {services.map((service) => (
-              <div key={service.name} className="flex items-center font-bold">
+              <div
+                key={service.name}
+                className="flex items-center font-bold group "
+              >
                 {service.active ? (
                   <IoCheckmarkCircle className="w-6 h-6 text-green-500 mr-2" />
                 ) : (
                   <IoIosCloseCircle className="w-6 h-6 text-red-500 mr-2" />
                 )}
-                <span className="text-sm">{service.name}</span>
+                <span
+                  className={`text-sm ${!service.active ? "opacity-60" : ""}`}
+                >
+                  {service.name}
+                </span>
               </div>
             ))}
           </div>

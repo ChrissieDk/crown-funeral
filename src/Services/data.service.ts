@@ -12,6 +12,25 @@ const POL_CLIENT_NAME = import.meta.env.VITE_POL_CLIENT_NAME;
 const ILLION_USERNAME = import.meta.env.VITE_ILLION_USERNAME;
 const ILLION_PASSWORD = import.meta.env.VITE_ILLION_PASSWORD;
 
+interface TransactionHist {
+  TransTransDate: string;
+  TransTransAmount: string;
+  TransFiscalPeriod: string;
+  TransRunnBalance: string;
+  TransNarration: string;
+  TransCode: string;
+}
+
+interface GetTransactionHistResponse {
+  Result: string;
+  RelateID: string;
+  FirstName: string;
+  LastName: string;
+  IDNumber: string;
+  Message: string;
+  TransactionHist: TransactionHist[];
+}
+
 // Validate required environment variables
 if (!POL_AUTH_TOKEN || !POL_CLIENT_NAME) {
   throw new Error("Missing required environment variables for POL360 service");
@@ -115,6 +134,77 @@ export const getMemberInformation = async (
     }
   } catch (error) {
     handleApiError(error, "Member Information");
+  }
+};
+
+export const getMemberTransactionHistory = async (
+  idNumber: string,
+  policyNumber: string,
+  memberType: string = "MEM"
+) => {
+  const fetchTransactionHistory = async (token: string) => {
+    try {
+      console.log("Request details:", {
+        Function: "GetMemberTransactionHist",
+        ClientName: POL_CLIENT_NAME,
+        PolicyNumber: policyNumber,
+        IDNumber: idNumber,
+        MemberType: memberType,
+        token: token,
+      });
+
+      const response = await axios({
+        method: "get",
+        url: POL_BASE_URL,
+        params: {
+          Function: "GetMemberTransactionHist",
+          ClientName: POL_CLIENT_NAME,
+          PolicyNumber: policyNumber,
+          IDNumber: idNumber,
+          MemberType: memberType,
+        },
+        headers: {
+          "x-authorization-token": POL_AUTH_TOKEN,
+          authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (!response.data) {
+        console.error("Empty response data received");
+        throw new Error("No response data received");
+      }
+
+      if (response.data?.Result !== "Success") {
+        console.error("API Error:", response.data);
+        throw new Error(
+          response.data?.Message || "Failed to get transaction history"
+        );
+      }
+
+      return response.data as GetTransactionHistResponse;
+    } catch (error) {
+      console.error("Error in fetchTransactionHistory:", error);
+      if (axios.isAxiosError(error) && error.response?.status === 401) {
+        throw new Error("TOKEN_EXPIRED");
+      }
+      handleApiError(error, "Transaction History");
+    }
+  };
+
+  try {
+    const token = await getPOL360AuthToken();
+
+    try {
+      return await fetchTransactionHistory(token); // Fixed this line
+    } catch (error) {
+      if (error instanceof Error && error.message === "TOKEN_EXPIRED") {
+        const newToken = await getPOL360AuthToken();
+        return await fetchTransactionHistory(newToken);
+      }
+      throw error;
+    }
+  } catch (error) {
+    handleApiError(error, "Transaction History");
   }
 };
 

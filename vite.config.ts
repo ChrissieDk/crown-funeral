@@ -13,12 +13,14 @@ export default defineConfig({
   },
   server: {
     proxy: {
-      "/api/360API.php": {
-        target: "https://web09.pol360.co.za",
+      "/api/pol360/proxy": {
+        target: "https://web09.pol360.co.za/api/360API.php",
         changeOrigin: true,
         secure: false,
+        rewrite: (path) => path.replace(/^\/api\/pol360\/proxy/, ""),
         configure: (proxy, _options) => {
           proxy.on("proxyReq", (proxyReq, req, _res) => {
+            // Preserve authorization headers
             if (req.headers.authorization) {
               proxyReq.setHeader("Authorization", req.headers.authorization);
             }
@@ -28,6 +30,9 @@ export default defineConfig({
                 req.headers["x-authorization-token"]
               );
             }
+            // Add content type headers
+            proxyReq.setHeader("Content-Type", "application/json");
+            proxyReq.setHeader("Accept", "application/json");
           });
         },
       },
