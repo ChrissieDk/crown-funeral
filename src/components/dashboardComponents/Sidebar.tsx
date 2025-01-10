@@ -58,7 +58,7 @@ const SideBar: React.FC<SideBarProps> = ({
     { name: "Home", icon: <FaHome /> },
     { name: "Personal Details", icon: <FaUser /> },
     { name: "Claims", icon: <FaClipboardList /> },
-    { name: "Wellness App", icon: <FaHeartbeat />, special: true },
+    { name: "Wellness App", icon: <FaHeartbeat /> },
     { name: "Symptom Checker", icon: <FaStethoscope />, special: true },
     { name: "FeelBetterFast", icon: <FaRunning />, special: true },
     { name: "Repatriation", icon: <FaPlane />, special: true },
