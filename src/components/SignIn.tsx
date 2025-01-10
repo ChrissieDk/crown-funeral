@@ -2,7 +2,11 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import crownSignIn from "../assets/crown-sign-in.png";
 import logo from "../assets/crown-logo-white.png";
-import { getMemberInformation } from "../Services/data.service";
+import {
+  getMemberInformation,
+  getMemberTransactionHistory,
+} from "../Services/data.service";
+import axios from "axios";
 
 const SignInPage: React.FC = () => {
   const navigate = useNavigate();
@@ -31,23 +35,45 @@ const SignInPage: React.FC = () => {
         throw new Error("Please fill in all fields");
       }
 
-      // Just validate credentials - no need to store the response
+      // First validate member exists
       await getMemberInformation(
         credentials.idNumber,
         credentials.policyNumber
       );
 
-      // If validation successful, store the credentials in sessionStorage
-      sessionStorage.setItem(
-        "memberInfo",
-        JSON.stringify({
-          policyNumber: credentials.policyNumber,
-          idNumber: credentials.idNumber,
-        })
-      );
+      const fetchTransactionHistory = async () => {
+        try {
+          const result = await getMemberTransactionHistory(
+            credentials.idNumber,
+            credentials.policyNumber
+          );
 
-      // Navigate to dashboard
-      navigate("/dashboard");
+          const hasTransactionHistory =
+            result?.Message === "Transaction History Found" &&
+            Array.isArray(result?.TransactionHist) &&
+            result.TransactionHist.length > 0;
+
+          // Store everything in session storage upon successful result
+          sessionStorage.setItem(
+            "memberInfo",
+            JSON.stringify({
+              policyNumber: credentials.policyNumber,
+              idNumber: credentials.idNumber,
+              hasServiceAccess: hasTransactionHistory,
+            })
+          );
+
+          navigate("/dashboard");
+        } catch (error) {
+          console.error("Full error:", error);
+          if (axios.isAxiosError(error)) {
+          }
+          throw error;
+        }
+      };
+
+      // Execute the transaction history check
+      await fetchTransactionHistory();
     } catch (err) {
       setError(
         err instanceof Error

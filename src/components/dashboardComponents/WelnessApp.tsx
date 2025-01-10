@@ -8,7 +8,6 @@ const WellnessApp = () => {
   const [showIframe, setShowIframe] = useState(false);
   const [illionUrl, setIllionUrl] = useState("");
   const [error, setError] = useState("");
-  const [windowRef, setWindowRef] = useState<Window | null>(null);
   const { memberInfo, loading } = useMemberInfo();
 
   const handleButtonClick = async () => {
@@ -29,31 +28,8 @@ const WellnessApp = () => {
 
       const response = await getIllionAutoLogin(userData);
       if (response.data.redirectionUrl) {
-        // Create a controlled popup window
-        const popupWindow = window.open(
-          response.data.redirectionUrl,
-          "WellnessApp",
-          "width=1000,height=800,left=100,top=100"
-        );
-
-        if (!popupWindow) {
-          setError("Please enable popups to access the Wellness App");
-          return;
-        }
-
-        setWindowRef(popupWindow);
         setIllionUrl(response.data.redirectionUrl);
         setShowIframe(true);
-
-        // Monitor window state
-        const checkWindow = setInterval(() => {
-          if (popupWindow.closed) {
-            clearInterval(checkWindow);
-            setWindowRef(null);
-            setShowIframe(false);
-            setIllionUrl("");
-          }
-        }, 500);
       }
     } catch (err) {
       setError("Failed to connect to wellness app. Please try again later.");
@@ -62,10 +38,6 @@ const WellnessApp = () => {
   };
 
   const handleBackClick = () => {
-    if (windowRef && !windowRef.closed) {
-      windowRef.close();
-    }
-    setWindowRef(null);
     setShowIframe(false);
     setIllionUrl("");
     setError("");
@@ -88,21 +60,11 @@ const WellnessApp = () => {
           <div className="text-white">Wellness App Session Active</div>
         </div>
         <div className="flex-grow w-full relative flex items-center justify-center bg-gray-50">
-          <div className="text-center p-6">
-            <h3 className="text-xl font-medium mb-4">
-              Your Wellness App session is active in a separate window
-            </h3>
-            <p className="text-gray-600 mb-4">
-              Please complete your session in the opened window. You can return
-              here once you're done.
-            </p>
-            <button
-              onClick={handleBackClick}
-              className="px-4 py-2 bg-[#C9A86C] hover:bg-[#B08F4F] text-white rounded-md focus:outline-none focus:ring-2 focus:ring-[#C9A86C]"
-            >
-              End Session
-            </button>
-          </div>
+          <iframe
+            src={illionUrl}
+            className="w-full h-full border-0"
+            sandbox="allow-scripts allow-same-origin"
+          />
         </div>
       </div>
     );
