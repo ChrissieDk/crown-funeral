@@ -47,7 +47,6 @@ const SignInPage: React.FC = () => {
             credentials.idNumber,
             credentials.policyNumber
           );
-          console.log("Transaction history result:", result);
 
           const hasTransactionHistory =
             result?.Message === "Transaction History Found" &&

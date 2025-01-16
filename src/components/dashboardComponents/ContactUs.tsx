@@ -12,7 +12,6 @@ const ContactUsModal: React.FC<ContactUsModalProps> = ({ isOpen, onClose }) => {
   const handleSubmit = (e: any) => {
     e.preventDefault();
     // Handle form submission logic here
-    console.log("Submitted:", { name, cellphone });
     onClose();
   };
 
