@@ -26,7 +26,7 @@ const Dashboard = () => {
       console.log(memberInfoStr);
 
       setServices([
-        { name: "Wellness App", active: true },
+        { name: "Wellness App", active: hasServiceAccess },
         { name: "Symptom Checker", active: hasServiceAccess },
         { name: "FeelBetterFast", active: false },
         { name: "Repatriation", active: false },
