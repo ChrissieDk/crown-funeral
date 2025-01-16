@@ -3,8 +3,9 @@ import { IllionUserData } from "../Types";
 
 // API Constants
 const POL_BASE_URL = "/api/pol360/proxy";
-const ILLION_BASE_URL =
+const WELLNESS_BASE_URL =
   "https://api.one81.com/v1/Notification/AutoSignUpIllion";
+const BOT_BASE_URL = "https://api.one81.com/v1/Notification/AutoSignUpIllion";
 
 // Environment variables
 const POL_AUTH_TOKEN = import.meta.env.VITE_POL_AUTH_TOKEN;
@@ -144,15 +145,6 @@ export const getMemberTransactionHistory = async (
 ) => {
   const fetchTransactionHistory = async (token: string) => {
     try {
-      console.log("Request details:", {
-        Function: "GetMemberTransactionHist",
-        ClientName: POL_CLIENT_NAME,
-        PolicyNumber: policyNumber,
-        IDNumber: idNumber,
-        MemberType: memberType,
-        token: token,
-      });
-
       const response = await axios({
         method: "get",
         url: POL_BASE_URL,
@@ -229,7 +221,33 @@ export const getIllionAutoLogin = async (userData: IllionUserData) => {
   try {
     const response = await axios({
       method: "post",
-      url: ILLION_BASE_URL,
+      url: WELLNESS_BASE_URL,
+      headers: {
+        authorization: `Basic ${base64Credentials}`,
+        "content-type": "application/json",
+      },
+      data: userData,
+    });
+
+    if (!response.data) {
+      throw new Error("Invalid response from Illion service");
+    }
+
+    return response.data;
+  } catch (error) {
+    handleApiError(error, "Illion Auto-login");
+  }
+};
+
+// const BOT_BASE_URL =
+// "https://api.one81.com/v1/Notification/AutoSignUpIllion";
+// IMPLEMENT THE SAME CALL AS THE ABOVE FOR THE NEW URL
+
+export const getIllionBotAutoLogin = async (userData: IllionUserData) => {
+  try {
+    const response = await axios({
+      method: "post",
+      url: BOT_BASE_URL,
       headers: {
         authorization: `Basic ${base64Credentials}`,
         "content-type": "application/json",

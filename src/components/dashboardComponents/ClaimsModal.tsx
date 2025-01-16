@@ -46,7 +46,6 @@ const ModernChecklist: React.FC<ModernChecklistProps> = ({ closeModal }) => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Submitting form with:", { name, phone });
     closeModal();
   };
 
