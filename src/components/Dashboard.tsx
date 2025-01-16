@@ -23,9 +23,10 @@ const Dashboard = () => {
     const memberInfoStr = sessionStorage.getItem("memberInfo");
     if (memberInfoStr) {
       const { hasServiceAccess } = JSON.parse(memberInfoStr);
+      console.log(memberInfoStr);
 
       setServices([
-        { name: "Wellness App", active: hasServiceAccess },
+        { name: "Wellness App", active: true },
         { name: "Symptom Checker", active: hasServiceAccess },
         { name: "FeelBetterFast", active: false },
         { name: "Repatriation", active: false },
