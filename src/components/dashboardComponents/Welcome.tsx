@@ -20,8 +20,8 @@ const Welcome = () => {
       setServices([
         { name: "Wellness App", active: hasServiceAccess },
         { name: "Symptom Checker", active: hasServiceAccess },
-        { name: "FeelBetterFast Voucher", active: hasServiceAccess },
-        { name: "Repatriation", active: hasServiceAccess },
+        { name: "FeelBetterFast Voucher", active: false },
+        { name: "Repatriation", active: false },
       ]);
     }
   }, []);
